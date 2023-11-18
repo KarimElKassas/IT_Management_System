@@ -329,19 +329,12 @@ class NewComputerScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(6.0),
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
-                            decoration: ShapeDecoration(
-                                shape: const StadiumBorder(),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(AppSize.s12),
                                 color: Theme.of(context).primaryColorDark,
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Colors.black,
-                                    blurRadius: 6,
-                                    spreadRadius: 1,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ]),
-                            width: AppSize.s15Width,
+                            ),
                             child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
@@ -352,7 +345,7 @@ class NewComputerScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: AppSize.s18),
                                 ),
-                                const Spacer(),
+                                const SizedBox(width: AppSize.s16,),
                                 Icon(
                                   Icons.add,
                                   color: ColorManager.CARD_BG_COLOR_DARK,
