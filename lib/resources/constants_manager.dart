@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:it_work/resources/strings_manager.dart';
+import 'package:it_work/resources/values_manager.dart';
 import 'package:it_work/utils/constant.dart';
 import '../utils/prefs_helper.dart';
+import 'color_manager.dart';
+import 'font_manager.dart';
 import 'language_manager.dart';
 import '../resources/endpoints.dart';
 import 'package:http/io_client.dart';
@@ -12,6 +16,174 @@ class AppConstants {
   static const String prefsKeyTheme = "PREFS_KEY_THEME";
   static const String sharePath = "\\\\nas.foe\\إدارة الرقمنة\\Archive Letters";
   static ValueNotifier<bool> boxKeyNotifier = ValueNotifier(false);
+
+  /// PC / Laptop Drawer Options
+  static List<Widget> PCLapTopDrawerOptions = [
+    GestureDetector(
+      onTap: () {
+        print('0');
+      },
+      child: ListTile(
+        title: Text(
+          AppStrings.newSector,
+          style: TextStyle(
+            color: ColorManager.CARD_BG_COLOR_DARK,
+            fontFamily: FontConstants.family,
+            fontSize: AppSize.s16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    InkWell(
+      onTap: () {
+        print('1');
+      },
+      child: ListTile(
+        title: Text(
+          AppStrings.newDepartment,
+          style: TextStyle(
+            color: ColorManager.CARD_BG_COLOR_DARK,
+            fontFamily: FontConstants.family,
+            fontSize: AppSize.s16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newArea,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newProcessorBrand,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newProcessorModel,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newProcessorGen,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newGraphicCardBrand,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newGraphicCardModel,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newGraphicCardSize,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newRamType,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newRamSize,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newDeviceModel,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newPrimaryHardDriveType,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    ListTile(
+      title: Text(
+        AppStrings.newPrimaryHardDriveSize,
+        style: TextStyle(
+          color: ColorManager.CARD_BG_COLOR_DARK,
+          fontFamily: FontConstants.family,
+          fontSize: AppSize.s16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  ];
 
   /// The default borderRadius
   static const double borderRadius = 8.0;

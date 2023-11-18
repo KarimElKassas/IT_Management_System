@@ -13,6 +13,7 @@ import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
+import 'package:it_work/domain/usecase/add_sector_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_brands_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_models_use_case.dart';
@@ -26,6 +27,10 @@ import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../domain/usecase/add_area_use_case.dart';
+import '../../../domain/usecase/add_department_use_case.dart';
+import '../../../domain/usecase/add_processor_brand_use_case.dart';
+import '../../../domain/usecase/add_processor_model_use_case.dart';
 import '../../../domain/usecase/get_areas_use_case.dart';
 import '../../../domain/usecase/get_user_use_case.dart';
 import '../../../domain/usecase/login_user_use_case.dart';
@@ -50,6 +55,11 @@ abstract class BaseRemoteDataSource{
   Future<List<ScreenBrandModel>> getScreenBrands(GetScreenBrandParameters parameters);
   Future<String> addDevice(AddDeviceParameters parameters);
   Future<String> addScreen(AddScreenParameters parameters);
+  Future<String> addSector(AddSectorParameters parameters);
+  Future<String> addArea(AddAreaParameters parameters);
+  Future<String> addDepartment(AddDepartmentParameters parameters);
+  Future<String> addProcessorBrand(AddProcessorBrandParameters parameters);
+  Future<String> addProcessorModel(AddProcessorModelParameters parameters);
 
 }
 class RemoteDataSource implements BaseRemoteDataSource{
@@ -254,5 +264,80 @@ class RemoteDataSource implements BaseRemoteDataSource{
     print("DATA MAP : ${response.data}");
     return List<ScreenBrandModel>.from((response.data['data'] as List).map((e) => ScreenBrandModel.fromJson(e)));
 
+  }
+
+  @override
+  Future<String> addSector(AddSectorParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createSector, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addArea(AddAreaParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createArea, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addDepartment(AddDepartmentParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createDepartment, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addProcessorBrand(AddProcessorBrandParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createProcessorBrand, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addProcessorModel(AddProcessorModelParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createProcessorCore, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
   }
 }

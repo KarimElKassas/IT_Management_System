@@ -1,41 +1,74 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_work/presentation/new_device/new_computer/bloc/new_computer_cubit.dart';
 import 'package:it_work/presentation/new_device/new_computer/bloc/new_computer_states.dart';
+import 'package:it_work/presentation/new_device/new_computer/ui/new_computer_dialog.dart';
+import 'package:it_work/resources/constants_manager.dart';
 import 'package:it_work/resources/extensions.dart';
 import 'package:it_work/utils/components.dart';
-
 import '../../../../core/service/service_locator.dart';
 import '../../../../resources/color_manager.dart';
 import '../../../../resources/font_manager.dart';
 import '../../../../resources/strings_manager.dart';
 import '../../../../resources/values_manager.dart';
+import '../../../../utils/constant.dart';
 
 class NewComputerScreen extends StatelessWidget {
   NewComputerScreen({Key? key}) : super(key: key);
+
   final formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<NewComputerCubit>()..getAllSectors()..getAllProcessorBrands()..getProcessorGens()..getAllGraphicBrands()..getAllRamTypes()..getAllHardTypes()..getAllPcModels(),
+      create: (context) => sl<NewComputerCubit>()
+        ..getAllSectors()
+        ..getAllProcessorBrands()
+        ..getProcessorGens()
+        ..getAllGraphicBrands()
+        ..getAllRamTypes()
+        ..getAllHardTypes()
+        ..getAllPcModels(),
       child: BlocConsumer<NewComputerCubit, NewComputerStates>(
         listener: (context, state) {
-          if(state is NewComputerSuccessCreateDevice){
+          if (state is NewComputerSuccessCreateDevice) {
             Navigator.pop(context);
-            ReusableComponents.showMToast(context, AppStrings.createDeviceSuccessfully, TextStyle(color: Theme.of(context).primaryColorDark,fontFamily: FontConstants.family,fontSize: AppSize.s16), ColorManager.goldColor.withOpacity(0.3));
+            ReusableComponents.showMToast(
+                context,
+                AppStrings.createDeviceSuccessfully,
+                TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontFamily: FontConstants.family,
+                    fontSize: AppSize.s16),
+                ColorManager.goldColor.withOpacity(0.3));
           }
-          if(state is NewComputerLoadingCreateDevice){
-            showDialog(context: context, barrierDismissible: true, barrierLabel: '', builder: (context) => BlurryProgressDialog(title: AppStrings.loading));
+          if (state is NewComputerLoadingCreateDevice) {
+            showDialog(
+                context: context,
+                barrierDismissible: true,
+                barrierLabel: '',
+                builder: (context) =>
+                    BlurryProgressDialog(title: AppStrings.loading));
           }
-          if(state is NewComputerErrorCreateDevice){
+          if (state is NewComputerErrorCreateDevice) {
             Navigator.pop(context);
-            ReusableComponents.showMToast(context, state.error, TextStyle(color: Theme.of(context).primaryColorDark,fontFamily: FontConstants.family,fontSize: AppSize.s16), ColorManager.goldColor.withOpacity(0.3));
+            ReusableComponents.showMToast(
+                context,
+                state.error,
+                TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontFamily: FontConstants.family,
+                    fontSize: AppSize.s16),
+                ColorManager.goldColor.withOpacity(0.3));
           }
         },
         builder: (context, state) {
+          final GlobalKey<ScaffoldState> _key = GlobalKey();
           var cubit = NewComputerCubit.get(context);
           return CallbackShortcuts(
             bindings: <ShortcutActivator, VoidCallback>{
@@ -48,8 +81,227 @@ class NewComputerScreen extends StatelessWidget {
               child: Form(
                 key: formKey,
                 child: Scaffold(
+                  key: _key,
+                  drawer: Drawer(
+                    child: ListView(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newSector,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newDepartment,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: (){
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newArea,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorBrand,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen, cubit: cubit));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorGen,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardBrand,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newRamType,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newRamSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newDeviceModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newPrimaryHardDriveType,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newPrimaryHardDriveSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   appBar: AppBar(
-                    automaticallyImplyLeading: true,
                     backgroundColor: ColorManager.CARD_BG_COLOR_DARK,
                     elevation: 2,
                     title: Text(
@@ -60,6 +312,57 @@ class NewComputerScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: AppSize.s18),
                     ),
+                    leading: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Constants.currentLocale == 'ar'
+                          ? const Icon(Icons.arrow_back)
+                          : const Icon(Icons.arrow_forward),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          _key.currentState!.openDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: ShapeDecoration(
+                                shape: const StadiumBorder(),
+                                color: Theme.of(context).primaryColorDark,
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 6,
+                                    spreadRadius: 1,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ]),
+                            width: AppSize.s15Width,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppStrings.add,
+                                  style: TextStyle(
+                                      color: ColorManager.CARD_BG_COLOR_DARK,
+                                      fontFamily: FontConstants.family,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: AppSize.s18),
+                                ),
+                                const Spacer(),
+                                Icon(
+                                  Icons.add,
+                                  color: ColorManager.CARD_BG_COLOR_DARK,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   backgroundColor: Theme.of(context).primaryColorLight,
                   body: FadeIn(
@@ -106,7 +409,9 @@ class NewComputerScreen extends StatelessWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                          width: MediaQuery.sizeOf(context).width * 0.1,
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.1,
                                           child: Text(
                                             AppStrings.sector,
                                             style: TextStyle(
@@ -639,58 +944,69 @@ class NewComputerScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSize.s16),
                             Align(
-                                alignment: Alignment.bottomLeft,
-                                child: MouseRegion(
-                                  cursor: MaterialStateMouseCursor.clickable,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: AppSize.s16,
-                                        vertical: AppSize.s8),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(AppSize.s8),
-                                      color: Colors.transparent,
-                                      border: Border.all(
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          width: AppSize.s1),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          Icons.done,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                        ),
-                                        const SizedBox(width: AppSize.s8),
-                                        Text(
-                                          AppStrings.createDevice,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColorDark,
-                                              fontFamily: FontConstants.family,
-                                              fontSize: AppSize.s20,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
+                              alignment: Alignment.bottomLeft,
+                              child: MouseRegion(
+                                cursor: MaterialStateMouseCursor.clickable,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: AppSize.s16,
+                                      vertical: AppSize.s8),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(AppSize.s8),
+                                    color: Colors.transparent,
+                                    border: Border.all(
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                        width: AppSize.s1),
                                   ),
-                                ).ripple(() {
-                                  if(cubit.checkValidation() == AppStrings.validationSuccess){
-                                    cubit.addDevice();
-                                  }else{
-                                    ReusableComponents.showMToast(context, cubit.checkValidation(), TextStyle(
-                                        color: Theme.of(context).primaryColorDark,
-                                        fontFamily: FontConstants.family,
-                                        fontSize: AppSize.s20,
-                                        fontWeight: FontWeight.w400), Colors.red.shade600);
-                                  }
-                                },
-                                    borderRadius: BorderRadius.circular(AppSize.s8),
-                                    overlayColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColorDark.withOpacity(AppSize.s0_2))),)
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        Icons.done,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                      ),
+                                      const SizedBox(width: AppSize.s8),
+                                      Text(
+                                        AppStrings.createDevice,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
+                                            fontFamily: FontConstants.family,
+                                            fontSize: AppSize.s20,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ).ripple(() {
+                                if (cubit.checkValidation() ==
+                                    AppStrings.validationSuccess) {
+                                  cubit.addDevice();
+                                } else {
+                                  ReusableComponents.showMToast(
+                                      context,
+                                      cubit.checkValidation(),
+                                      TextStyle(
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          fontFamily: FontConstants.family,
+                                          fontSize: AppSize.s20,
+                                          fontWeight: FontWeight.w400),
+                                      Colors.red.shade600);
+                                }
+                              },
+                                  borderRadius:
+                                      BorderRadius.circular(AppSize.s8),
+                                  overlayColor: MaterialStateColor.resolveWith(
+                                      (states) => Theme.of(context)
+                                          .primaryColorDark
+                                          .withOpacity(AppSize.s0_2))),
+                            )
                           ],
                         ),
                       ),

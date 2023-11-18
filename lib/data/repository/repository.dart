@@ -15,6 +15,8 @@ import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/repository/base_repository.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
+import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
+import 'package:it_work/domain/usecase/add_processor_model_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
 import 'package:it_work/domain/usecase/get_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
@@ -25,6 +27,9 @@ import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 
 import '../../core/error/failure.dart';
+import '../../domain/usecase/add_area_use_case.dart';
+import '../../domain/usecase/add_department_use_case.dart';
+import '../../domain/usecase/add_sector_use_case.dart';
 import '../../domain/usecase/get_user_use_case.dart';
 import '../../domain/usecase/login_user_use_case.dart';
 import '../models/user_model.dart';
@@ -47,8 +52,7 @@ class ITRepository extends BaseRepository{
 
   @override
   Future<Either<Failure, UserModel>> getUser(GetUserParameters parameters)async {
-    final result = await remoteDataSource.getUser(parameters);
-    return Right(result);
+
     try{
       final result = await remoteDataSource.getUser(parameters);
       return Right(result);
@@ -244,5 +248,70 @@ class ITRepository extends BaseRepository{
       return left(e as ServerFailure);
     }
 
+  }
+
+  @override
+  Future<Either<Failure, String>> addSector(AddSectorParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addSector(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addArea(AddAreaParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addArea(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addDepartment(AddDepartmentParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addDepartment(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addProcessorBrand(AddProcessorBrandParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addProcessorBrand(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addProcessorModel(AddProcessorModelParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addProcessorModel(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
   }
 }

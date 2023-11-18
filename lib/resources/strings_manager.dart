@@ -21,6 +21,7 @@ class AppStrings{
   static String newDevice = "اضافة جهاز جديد";
   static String computer = "جهاز كمبيوتر";
   static String newComputer = "اضافة جهاز كمبيوتر";
+  static String add = 'إضافات جديدة';
   static String laptop = "لاب توب";
   static String newLaptop = "اضافة لاب توب";
   static String screen = "شاشة كمبيوتر";
@@ -76,6 +77,22 @@ class AppStrings{
   static String createDevice = "اضافة الجهاز";
   static String createDeviceSuccessfully = "تمت اضافة الجهاز بنجاح";
   static String createScreenSuccessfully = "تمت اضافة الشاشة بنجاح";
+  static const String newSector = 'إضافة قطاع';
+  static const String newDepartment = 'إضافة إدارة';
+  static const String newArea = 'إضافة مكان';
+  static const String newProcessorBrand = 'إضافة نوع البروسيسور';
+  static const String newProcessorModel = 'إضافة موديل البروسيسور';
+  static const String newProcessorGen = 'إضافة جيل البروسيسور';
+  static const String newGraphicCardBrand = 'إضافة نوع كارت الشاشة';
+  static const String newGraphicCardModel = 'إضافة موديل كارت الشاشة';
+  static const String newGraphicCardSize = 'إضافة حجم كارت الشاشة';
+  static const String newRamType = 'إضافة نوع الرامات';
+  static const String newRamSize = 'إضافة حجم الرامات';
+  static const String newDeviceModel = 'إضافة موديل الجهاز';
+  static const String newPrimaryHardDriveType = "إضافة نوع الهارد";
+  static const String newPrimaryHardDriveSize = "إضافة حجم الهارد";
+
+
   //start screen
   static String welcomeToApp = "welcomeToApp";
   static String startQuote = "startQuote";

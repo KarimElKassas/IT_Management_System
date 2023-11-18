@@ -30,7 +30,7 @@ void main()async {
   Constants.currentVersionNumber = int.parse(currentVersion);
 
   windowManager.setTitle("إدارة الرقمنة");
-  windowManager.setResizable(false);
+  windowManager.setResizable(true);
   windowManager.maximize();
 
   /*bool needUpdate = await checkForUpdate();

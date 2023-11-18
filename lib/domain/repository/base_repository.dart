@@ -13,6 +13,7 @@ import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
+import 'package:it_work/domain/usecase/add_sector_use_case.dart';
 import 'package:it_work/domain/usecase/get_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_models_use_case.dart';
@@ -26,6 +27,10 @@ import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
+import '../usecase/add_area_use_case.dart';
+import '../usecase/add_department_use_case.dart';
+import '../usecase/add_processor_brand_use_case.dart';
+import '../usecase/add_processor_model_use_case.dart';
 import '../usecase/get_graphic_brands_use_case.dart';
 import '../usecase/get_user_use_case.dart';
 import '../usecase/login_user_use_case.dart';
@@ -47,4 +52,9 @@ abstract class BaseRepository {
   Future<Either<Failure,List<ScreenBrandModel>>> getScreenBrands(GetScreenBrandParameters parameters);
   Future<Either<Failure,String>> addDevice(AddDeviceParameters parameters);
   Future<Either<Failure,String>> addScreen(AddScreenParameters parameters);
+  Future<Either<Failure,String>> addSector(AddSectorParameters parameters);
+  Future<Either<Failure,String>> addArea(AddAreaParameters parameters);
+  Future<Either<Failure,String>> addDepartment(AddDepartmentParameters parameters);
+  Future<Either<Failure,String>> addProcessorBrand(AddProcessorBrandParameters parameters);
+  Future<Either<Failure,String>> addProcessorModel(AddProcessorModelParameters parameters);
 }

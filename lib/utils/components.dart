@@ -27,6 +27,8 @@ import 'package:it_work/presentation/new_device/new_pc_screen/bloc/new_pc_screen
 import 'package:it_work/presentation/new_device/new_pc_screen/bloc/new_pc_screen_states.dart';
 import 'dart:ui' as ui;
 import '../presentation/new_device/new_laptop/bloc/new_laptop_cubit.dart';
+import '../presentation/shared_cubit/new_info_cubit.dart';
+import '../presentation/shared_cubit/new_info_states.dart';
 import '../resources/asset_manager.dart';
 import '../resources/color_manager.dart';
 import '../resources/constants_manager.dart';
@@ -37,828 +39,7 @@ import '../resources/values_manager.dart';
 import 'constant.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-/*
-class SortByComponent extends StatelessWidget {
-  SortByComponent({Key? key}) : super(key: key);
 
-  String? selectedValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state){},
-      builder: (context, state){
-        var cubit = HomeCubit.get(context);
-        return DropdownButtonHideUnderline(
-          child: DropdownButton2<String>(
-            isExpanded: true,
-            hint: Text(
-              cubit.selectedSortMethod!,
-              style: TextStyle(
-                fontSize: AppSize.s14,
-                fontFamily: FontConstants.family,
-                color: Theme.of(context).hintColor,
-              ),
-            ),
-            items: cubit.sortMethods
-                .map((item) => DropdownMenuItem(
-              value: item,
-              child: Text(
-                item,
-                style: const TextStyle(
-                  fontSize: AppSize.s14,
-                ),
-              ),
-            )).toList(),
-            value: cubit.selectedSortMethod,
-            onChanged: (value) {
-              cubit.changeSortMethod(value!);
-            },
-            buttonStyleData: ButtonStyleData(
-              height: 40,
-              width: 220,
-                padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorDark,
-                    border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                    borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                )
-            ),
-            dropdownStyleData: DropdownStyleData(
-              maxHeight: 200,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-              )
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
-            ),
-            style: TextStyle(color: ColorManager.darkSecondColor),
-          ),
-        );
-      },
-    );
-  }
-}
-class GetSectorsComponent extends StatelessWidget {
-  GetSectorsComponent({Key? key,required this.fromRoute,  required this.cubit}) : super(key: key);
-  final String fromRoute;
-  dynamic cubit;
-  final TextEditingController textEditingController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    switch(fromRoute){
-      case "Letter Reply":
-        cubit = cubit as LetterReplyCubit;
-        return BlocConsumer<LetterReplyCubit, LetterReplyStates>(
-          bloc: cubit,
-          listener: (context, state){},
-          builder: (context, state){
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<SectorModel>(
-                isExpanded: true,
-                hint: Text(
-                  (cubit as LetterReplyCubit).selectedSectorModel == null ? AppStrings.selectSector.tr() : (cubit as LetterReplyCubit).selectedSectorModel!.sectorName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: (cubit as LetterReplyCubit).sectorsList
-                    .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.sectorName,
-                    style: const TextStyle(
-                      fontSize: AppSize.s14,
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: (cubit as LetterReplyCubit).selectedSectorModel,
-                onChanged: (value) {
-                  (cubit as LetterReplyCubit).changeSelectedSector(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForSector.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "Archive Letter":
-        cubit = cubit as ArchivedLettersCubit;
-        return BlocConsumer<ArchivedLettersCubit, ArchivedLettersStates>(
-          bloc: cubit,
-          listener: (context, state){},
-          builder: (context, state){
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<SectorModel>(
-                isExpanded: true,
-                hint: Text(
-                  (cubit as ArchivedLettersCubit).selectedSectorModel == null ? AppStrings.selectSector.tr() : (cubit as ArchivedLettersCubit).selectedSectorModel!.sectorName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: (cubit as ArchivedLettersCubit).sectorsList
-                    .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.sectorName,
-                    style: const TextStyle(
-                      fontSize: AppSize.s14,
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: (cubit as ArchivedLettersCubit).selectedSectorModel,
-                onChanged: (value) {
-                  (cubit as ArchivedLettersCubit).changeSelectedSector(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForSector.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "Update Letter":
-        cubit = cubit as UpdateLetterCubit;
-        return BlocConsumer<UpdateLetterCubit, UpdateLetterStates>(
-          bloc: cubit,
-          listener: (context, state){},
-          builder: (context, state){
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<SectorModel>(
-                isExpanded: true,
-                hint: Text(
-                  (cubit as UpdateLetterCubit).selectedSectorModel == null ? AppStrings.selectSector.tr() : (cubit as UpdateLetterCubit).selectedSectorModel!.sectorName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: (cubit as UpdateLetterCubit).sectorsList
-                    .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.sectorName,
-                    style: const TextStyle(
-                      fontSize: AppSize.s14,
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: (cubit as UpdateLetterCubit).selectedSectorModel,
-                onChanged: (value) {
-                  (cubit as UpdateLetterCubit).changeSelectedSector(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForSector.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "New Letter":
-      default :
-        cubit = cubit as NewLetterCubit;
-        return BlocConsumer<NewLetterCubit, NewLetterStates>(
-          bloc: cubit as NewLetterCubit,
-          listener: (context, state){},
-          builder: (context, state){
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<SectorModel>(
-                isExpanded: true,
-                hint: Text(
-                  (cubit as NewLetterCubit).selectedSectorModel == null ? AppStrings.selectSector.tr() : (cubit as NewLetterCubit).selectedSectorModel!.sectorName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: (cubit as NewLetterCubit).sectorsList
-                    .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.sectorName,
-                    style: const TextStyle(
-                      fontSize: AppSize.s14,
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: (cubit as NewLetterCubit).selectedSectorModel,
-                onChanged: (value) {
-                  (cubit as NewLetterCubit).changeSelectedSector(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForSector.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-    }
-  }
-}
-class SelectDirectionComponent extends StatelessWidget {
-  SelectDirectionComponent({Key? key, required this.fromRoute, required this.cubit}) : super(key: key);
-  dynamic cubit;
-  final String fromRoute;
-
-  final TextEditingController textEditingController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    switch (fromRoute){
-
-      case "Archive Letter":
-        return BlocConsumer<ArchivedLettersCubit, ArchivedLettersStates>(
-          bloc: cubit as ArchivedLettersCubit,
-          listener: (context, state){},
-          builder: (context, state){
-            var mCubit = cubit as ArchivedLettersCubit;
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<DirectionModel>(
-                isExpanded: true,
-                hint: Text(
-                  mCubit.selectedDirection == null ? AppStrings.selectDirection.tr() : mCubit.selectedDirection!.directionName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: mCubit.directionsList.map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.directionName,
-                    style: const TextStyle(
-                        fontSize: AppSize.s14,
-                        fontFamily: FontConstants.family
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: mCubit.selectedDirection,
-                onChanged: (value) {
-                  mCubit.changeSelectedDirection(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForDirection.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "Update Letter":
-        return BlocConsumer<UpdateLetterCubit, UpdateLetterStates>(
-          bloc: cubit as UpdateLetterCubit,
-          listener: (context, state){},
-          builder: (context, state){
-            var mCubit = cubit as UpdateLetterCubit;
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<DirectionModel>(
-                isExpanded: true,
-                hint: Text(
-                  mCubit.selectedDirection == null ? AppStrings.selectDirection.tr() : mCubit.selectedDirection!.directionName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: mCubit.directionsList.map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.directionName,
-                    style: const TextStyle(
-                        fontSize: AppSize.s14,
-                        fontFamily: FontConstants.family
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: mCubit.selectedDirection,
-                onChanged: (value) {
-                  mCubit.changeSelectedDirection(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForDirection.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "Letter Reply":
-        return BlocConsumer<LetterReplyCubit, LetterReplyStates>(
-          bloc: cubit as LetterReplyCubit,
-          listener: (context, state){},
-          builder: (context, state){
-            var mCubit = cubit as LetterReplyCubit;
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<DirectionModel>(
-                isExpanded: true,
-                hint: Text(
-                  mCubit.selectedDirection == null ? AppStrings.selectDirection.tr() : mCubit.selectedDirection!.directionName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: mCubit.directionsList.map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.directionName,
-                    style: const TextStyle(
-                        fontSize: AppSize.s14,
-                        fontFamily: FontConstants.family
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: mCubit.selectedDirection,
-                onChanged: (value) {
-                  mCubit.changeSelectedDirection(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForDirection.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-      case "New Letter":
-      default:
-        return BlocConsumer<NewLetterCubit, NewLetterStates>(
-          bloc: cubit as NewLetterCubit,
-          listener: (context, state){},
-          builder: (context, state){
-            var mCubit = cubit as NewLetterCubit;
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2<DirectionModel>(
-                isExpanded: true,
-                hint: Text(
-                  mCubit.selectedDirection == null ? AppStrings.selectDirection.tr() : mCubit.selectedDirection!.directionName,
-                  style: TextStyle(
-                    fontSize: AppSize.s14,
-                    fontFamily: FontConstants.family,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: mCubit.directionsList
-                    .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item.directionName,
-                    style: const TextStyle(
-                        fontSize: AppSize.s14,
-                        fontFamily: FontConstants.family
-                    ),
-                  ),
-                ))
-                    .toList(),
-                value: mCubit.selectedDirection,
-                onChanged: (value) {
-                  mCubit.changeSelectedDirection(value!);
-                },
-                buttonStyleData: ButtonStyleData(
-                    height: 40,
-                    width: 220,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorDark,
-                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
-                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
-                    )
-                ),
-                dropdownStyleData: DropdownStyleData(
-                    maxHeight: 200,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorDark,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
-                    )
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                ),
-                style: TextStyle(color: ColorManager.darkSecondColor),
-                dropdownSearchData: DropdownSearchData(
-                  searchController: textEditingController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: ReusableComponents.registerTextField(
-                        context: context,
-                        background: Colors.transparent,
-                        borderColor: ColorManager.darkSecondColor,
-                        textInputType: TextInputType.text,
-                        hintText: AppStrings.searchForDirection.tr(),
-                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
-                        controller: textEditingController,
-                        validate: (value) {}, onChanged: (String? value) {}),
-                  ),
-                  searchMatchFn: (item, searchValue) {
-                    return (item.value.toString().contains(searchValue));
-                  },
-                ),
-                //This to clear the search value when you close the menu
-                onMenuStateChange: (isOpen) {
-                  if (!isOpen) {
-                    textEditingController.clear();
-                  }
-                },
-              ),
-            );
-          },
-        );
-    }
-  }
-}
-*/
 class GetSectorsComponent extends StatelessWidget {
   GetSectorsComponent({Key? key,required this.fromRoute,  required this.cubit}) : super(key: key);
   final String fromRoute;
@@ -1049,6 +230,97 @@ class GetSectorsComponent extends StatelessWidget {
           },
         );
       case "New Laptop":
+
+      case "New Info":
+      return BlocConsumer<NewInfoCubit, NewInfoStates>(
+        bloc: cubit as NewInfoCubit,
+        listener: (context, state){},
+        builder: (context, state){
+          return DropdownButtonHideUnderline(
+            child: DropdownButton2<SectorModel>(
+              isExpanded: true,
+              hint: Text(
+                (cubit as NewInfoCubit).selectedSector == null ? AppStrings.selectSector : (cubit as NewInfoCubit).selectedSector!.sectorName,
+                style: TextStyle(
+                  fontSize: AppSize.s14,
+                  fontFamily: FontConstants.family,
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
+              items: (cubit as NewInfoCubit).sectorsList
+                  .map((item) => DropdownMenuItem(
+                value: item,
+                child: Text(
+                  item.sectorName,
+                  style: const TextStyle(
+                    fontSize: AppSize.s14,
+                  ),
+                ),
+              ))
+                  .toList(),
+              value: (cubit as NewInfoCubit).selectedSector,
+              onChanged: (value) {
+                (cubit as NewInfoCubit).changeSelectedSector(value!);
+              },
+              buttonStyleData: ButtonStyleData(
+                  height: 40,
+                  width: 220,
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColorDark,
+                    border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                    borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                  )
+              ),
+              dropdownStyleData: DropdownStyleData(
+                  maxHeight: 300,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                  )
+              ),
+              menuItemStyleData: const MenuItemStyleData(
+                height: 40,
+              ),
+              style: TextStyle(color: ColorManager.darkSecondColor),
+              dropdownSearchData: DropdownSearchData(
+                searchController: textEditingController,
+                searchInnerWidgetHeight: 50,
+                searchInnerWidget: Container(
+                  height: 50,
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    bottom: 4,
+                    right: 8,
+                    left: 8,
+                  ),
+                  child: ReusableComponents.registerTextField(
+                      context: context,
+                      background: Colors.transparent,
+                      borderColor: ColorManager.darkSecondColor,
+                      textInputType: TextInputType.text,
+                      hintText: AppStrings.searchForSector,
+                      textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                      hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                      textInputAction: TextInputAction.next,
+                      suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                      controller: textEditingController,
+                      validate: (value) {}, onChanged: (String? value) {}),
+                ),
+                searchMatchFn: (item, searchValue) {
+                  return (item.value.toString().contains(searchValue));
+                },
+              ),
+              //This to clear the search value when you close the menu
+              onMenuStateChange: (isOpen) {
+                if (!isOpen) {
+                  textEditingController.clear();
+                }
+              },
+            ),
+          );
+        },
+      );
       default:
         return BlocConsumer<NewLaptopCubit, NewLaptopStates>(
           bloc: cubit as NewLaptopCubit,
@@ -1810,6 +1082,186 @@ class GetProcessorBrandComponent extends StatelessWidget {
           },
         );
       case "New Computer":
+        return BlocConsumer<NewComputerCubit, NewComputerStates>(
+          bloc: cubit as NewComputerCubit,
+          listener: (context, state){},
+          builder: (context, state){
+            return DropdownButtonHideUnderline(
+              child: DropdownButton2<ProcessorBrandModel>(
+                isExpanded: true,
+                hint: Text(
+                  (cubit as NewComputerCubit).selectedProcessorBrand == null ? AppStrings.selectBrand : (cubit as NewComputerCubit).selectedProcessorBrand!.processorBrandName,
+                  style: TextStyle(
+                    fontSize: AppSize.s14,
+                    fontFamily: FontConstants.family,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                items: (cubit as NewComputerCubit).processorBrandList
+                    .map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item.processorBrandName,
+                    style: const TextStyle(
+                      fontSize: AppSize.s14,
+                    ),
+                  ),
+                ))
+                    .toList(),
+                value: (cubit as NewComputerCubit).selectedProcessorBrand,
+                onChanged: (value) {
+                  (cubit as NewComputerCubit).changeSelectedProcessorBrand(value!);
+                },
+                buttonStyleData: ButtonStyleData(
+                    height: 40,
+                    width: 220,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                    )
+                ),
+                dropdownStyleData: DropdownStyleData(
+                    maxHeight: 300,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                    )
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                ),
+                style: TextStyle(color: ColorManager.darkSecondColor),
+                dropdownSearchData: DropdownSearchData(
+                  searchController: textEditingController,
+                  searchInnerWidgetHeight: 50,
+                  searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: ReusableComponents.registerTextField(
+                        context: context,
+                        background: Colors.transparent,
+                        borderColor: ColorManager.darkSecondColor,
+                        textInputType: TextInputType.text,
+                        hintText: AppStrings.searchForBrand,
+                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                        controller: textEditingController,
+                        validate: (value) {}, onChanged: (String? value) {}),
+                  ),
+                  searchMatchFn: (item, searchValue) {
+                    return (item.value.toString().contains(searchValue));
+                  },
+                ),
+                //This to clear the search value when you close the menu
+                onMenuStateChange: (isOpen) {
+                  if (!isOpen) {
+                    textEditingController.clear();
+                  }
+                },
+              ),
+            );
+          },
+        );
+      case "New Info":
+        return BlocConsumer<NewInfoCubit, NewInfoStates>(
+          bloc: cubit as NewInfoCubit,
+          listener: (context, state){},
+          builder: (context, state){
+            return DropdownButtonHideUnderline(
+              child: DropdownButton2<ProcessorBrandModel>(
+                isExpanded: true,
+                autofocus: true,
+                hint: Text(
+                  (cubit as NewInfoCubit).selectedBrand == null ? AppStrings.selectBrand : (cubit as NewInfoCubit).selectedBrand!.processorBrandName,
+                  style: TextStyle(
+                    fontSize: AppSize.s14,
+                    fontFamily: FontConstants.family,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                items: (cubit as NewInfoCubit).brandsList
+                    .map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item.processorBrandName,
+                    style: const TextStyle(
+                      fontSize: AppSize.s14,
+                    ),
+                  ),
+                ))
+                    .toList(),
+                value: (cubit as NewInfoCubit).selectedBrand,
+                onChanged: (value) {
+                  (cubit as NewInfoCubit).changeSelectedProcessorBrand(value!);
+                },
+                buttonStyleData: ButtonStyleData(
+                    height: 40,
+                    width: 220,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                    )
+                ),
+                dropdownStyleData: DropdownStyleData(
+                    maxHeight: 300,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                    )
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                ),
+                style: TextStyle(color: ColorManager.darkSecondColor),
+                dropdownSearchData: DropdownSearchData(
+                  searchController: textEditingController,
+                  searchInnerWidgetHeight: 50,
+                  searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: ReusableComponents.registerTextField(
+                        context: context,
+                        background: Colors.transparent,
+                        borderColor: ColorManager.darkSecondColor,
+                        textInputType: TextInputType.text,
+                        hintText: AppStrings.searchForSector,
+                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                        controller: textEditingController,
+                        validate: (value) {}, onChanged: (String? value) {}),
+                  ),
+                  searchMatchFn: (item, searchValue) {
+                    return (item.value.toString().contains(searchValue));
+                  },
+                ),
+                //This to clear the search value when you close the menu
+                onMenuStateChange: (isOpen) {
+                  if (!isOpen) {
+                    textEditingController.clear();
+                  }
+                },
+              ),
+            );
+          },
+        );
       default:
         return BlocConsumer<NewComputerCubit, NewComputerStates>(
           bloc: cubit as NewComputerCubit,

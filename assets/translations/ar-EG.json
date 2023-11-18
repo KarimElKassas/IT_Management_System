@@ -95,6 +95,20 @@
   "cannotDeleteLetterHasReply" : "لا يمكن حذف خطاب تم الرد عليه",
   "sendToOutside" : "تصدير الى الخارج",
   "localLetter" : "خطاب خاص",
-  "oldArchive" : "ارشيف سابق"
-
+  "oldArchive" : "ارشيف سابق",
+  "add": "إضافات جديدة",
+  "newSector" : "إضافة قطاع",
+  "newDepartment" : "إضافة إدارة",
+  "newArea" : "إضافة مكان",
+  "newProcessorBrand" : "إضافة نوع البروسيسور",
+  "newProcessorModel" : "إضافة موديل البروسيسور",
+  "newProcessorGen" : "إضافة جيل البروسيسور",
+  "newGraphicCardBrand" : "إضافة نوع كارت الشاشة",
+  "newGraphicCardModel" : "إضافة موديل كارت الشاشة",
+  "newGraphicCardSize" : "إضافة حجم كارت الشاشة",
+  "newRamType" : "إضافة نوع الرامات",
+  "newRamSize" : "إضافة حجم الرامات",
+  "newDeviceModel" : "إضافة موديل الجهاز",
+  "newPrimaryHardDriveType" : "إضافة نوع الهارد",
+  "newPrimaryHardDriveSize" : "إضافة حجم الهارد"
 }

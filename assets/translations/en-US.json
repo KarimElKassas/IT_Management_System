@@ -88,6 +88,20 @@
   "cannotDeleteLetterHasReply" : "Cannot delete letter because there's reply on it",
   "sendToOutside" : "Send to outside",
   "localLetter" : "local letter",
-  "oldArchive" : "old letter"
-
+  "oldArchive" : "old letter",
+  "add": "Add",
+  "newSector" : "Add New Sector",
+  "newDepartment" : "Add New Department",
+  "newArea" : "Add New Area",
+  "newProcessorBrand" : "Add New Processor Brand",
+  "newProcessorModel" : "Add New Processor Model",
+  "newProcessorGen" : "Add New Processor Gen",
+  "newGraphicCardBrand" : "Add New Graphic Card Brand",
+  "newGraphicCardModel" : "Add New Graphic Card Model",
+  "newGraphicCardSize" : "Add New Graphic Card Size",
+  "newRamType" : "Add New Ram Type",
+  "newRamSize" : "Add New Ram Size",
+  "newDeviceModel" : "Add new Device Model",
+  "newPrimaryHardDriveType" : "Add New Primary Hard Type",
+  "newPrimaryHardDriveSize" : "Add new Primary Hard Size"
 }
