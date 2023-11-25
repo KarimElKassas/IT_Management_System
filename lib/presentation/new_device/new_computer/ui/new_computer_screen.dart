@@ -22,6 +22,7 @@ class NewComputerScreen extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
 
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,6 @@ class NewComputerScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          final GlobalKey<ScaffoldState> _key = GlobalKey();
           var cubit = NewComputerCubit.get(context);
           return CallbackShortcuts(
             bindings: <ShortcutActivator, VoidCallback>{
@@ -87,7 +87,7 @@ class NewComputerScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector));
                           },
                           child: ListTile(
                             title: Text(
@@ -104,7 +104,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment));
                           },
                           child: ListTile(
                             title: Text(
@@ -121,7 +121,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: (){
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea));
                           },
                           child: ListTile(
                             title: Text(
@@ -138,7 +138,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand));
                           },
                           child: ListTile(
                             title: Text(
@@ -155,7 +155,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel));
                           },
                           child: ListTile(
                             title: Text(
@@ -172,7 +172,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen, cubit: cubit));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen));
                           },
                           child: ListTile(
                             title: Text(
@@ -188,6 +188,9 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand));
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newGraphicCardBrand,
@@ -202,6 +205,9 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel));
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newGraphicCardModel,

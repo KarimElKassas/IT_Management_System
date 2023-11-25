@@ -63,3 +63,37 @@ class NewInfoAddProcessorModelError extends NewInfoStates{
   NewInfoAddProcessorModelError(this.error);
 }
 class NewInfoAddProcessorModelSuccess extends NewInfoStates {}
+
+// Processor Gen
+class NewInfoAddProcessorGen extends NewInfoStates{}
+class NewInfoAddProcessorGenError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddProcessorGenError(this.error);
+}
+class NewInfoAddProcessorGenSuccess extends NewInfoStates {}
+
+// graphic card brand
+class NewInfoAddGraphicCardBrand extends NewInfoStates{}
+class NewInfoAddGraphicCardBrandError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddGraphicCardBrandError(this.error);
+}
+class NewInfoAddGraphicCardBrandSuccess extends NewInfoStates {}
+class NewInfoChangeGraphicsCardBrand extends NewInfoStates {}
+class NewInfoSuccessGetGraphicsCardBrand extends NewInfoStates {}
+class NewInfoGetGraphicsCardBrandError extends NewInfoStates {
+  final String error;
+
+  NewInfoGetGraphicsCardBrandError(this.error);
+}
+
+// Graphics Card Model
+class NewInfoAddGraphicCardModel extends NewInfoStates{}
+class NewInfoAddGraphicCardModelError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddGraphicCardModelError(this.error);
+}
+class NewInfoAddGraphicCardModelSuccess extends NewInfoStates {}

@@ -12,11 +12,11 @@ import '../../../shared_cubit/new_info_states.dart';
 import '../bloc/new_computer_cubit.dart';
 
 class NewComputerDialog extends StatelessWidget {
-  NewComputerDialog({Key? key, required this.option, required this.cubit})
+  NewComputerDialog({Key? key, required this.option})
       : super(key: key);
 
   final String option;
-  var cubit;
+  // var cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,10 @@ class NewComputerDialog extends StatelessWidget {
     ValueNotifier<String> newDepartment = ValueNotifier('');
     ValueNotifier<String> newProcessorBrand = ValueNotifier('');
     ValueNotifier<String> newProcessorModel = ValueNotifier('');
+    ValueNotifier<String> newProcessorGen = ValueNotifier('');
+    ValueNotifier<String> newGraphicCardBrand = ValueNotifier('');
+    ValueNotifier<String> newGraphicCardModel = ValueNotifier('');
+    ValueNotifier<String> newGraphicCardRamSize = ValueNotifier('');
 
     switch (option) {
       case AppStrings.newSector:
@@ -283,6 +287,7 @@ class NewComputerDialog extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         child: ElevatedButton(
                           onPressed: () {
+
                             context.read<NewInfoCubit>().addProcessorBrand(newProcessorBrand.value);
                           },
                           style: ElevatedButton.styleFrom(
@@ -313,7 +318,6 @@ class NewComputerDialog extends StatelessWidget {
         }
       case AppStrings.newProcessorModel:
         {
-
           dialogDetails = BlocProvider(
             create: (BuildContext context) => sl<NewInfoCubit>()..getAllProcessorBrands(),
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
@@ -386,54 +390,229 @@ class NewComputerDialog extends StatelessWidget {
         }
       case AppStrings.newProcessorGen:
         {
-          dialogDetails = Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s15Width, vertical: AppSize.s1Height),
-                child: TextFormField(
-                    onChanged: (value) {
-                      print(value);
-                    },
-                    decoration: InputDecoration(
-                      hintText: AppStrings.processorGen,
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
+          dialogDetails = BlocProvider(
+            create: (BuildContext context) => sl<NewInfoCubit>(),
+            child: BlocConsumer<NewInfoCubit,NewInfoStates>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s15Width, vertical: AppSize.s1Height),
+                      child: TextFormField(
+                          onChanged: (value) {
+                            newProcessorGen.value = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: AppStrings.processorGen,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontFamily: FontConstants.family,
+                          )),
+                    ),
+                    SizedBox(
+                      height: AppSize.s5Height,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<NewInfoCubit>().addProcessorGen(newProcessorGen.value);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColorDark,
+                            elevation: 20,
+                          ),
+                          child: Text(
+                            AppStrings.newProcessorGen,
+                            style: TextStyle(
+                              color: ColorManager.CARD_BG_COLOR_DARK,
+                              fontFamily: FontConstants.family,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorDark,
-                      fontFamily: FontConstants.family,
-                    )),
-              ),
-              SizedBox(
-                height: AppSize.s5Height,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      elevation: 20,
+                  ],
+                );
+              },
+              listener: (BuildContext context, NewInfoStates state) {
+                if (state is NewInfoAddProcessorGenSuccess) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          );
+        }
+      case AppStrings.newGraphicCardBrand:
+        {
+          dialogDetails = BlocProvider(
+            create: (BuildContext context) => sl<NewInfoCubit>(),
+            child: BlocConsumer<NewInfoCubit,NewInfoStates>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s15Width, vertical: AppSize.s1Height),
+                      child: TextFormField(
+                          onChanged: (value) {
+                          newGraphicCardBrand.value = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: AppStrings.graphicCardBrand,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontFamily: FontConstants.family,
+                          )),
                     ),
-                    child: Text(
-                      AppStrings.newProcessorGen,
-                      style: TextStyle(
-                        color: ColorManager.CARD_BG_COLOR_DARK,
-                        fontFamily: FontConstants.family,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(
+                      height: AppSize.s5Height,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            print(newGraphicCardBrand.value);
+                            context.read<NewInfoCubit>().addGraphicCardBrand(newGraphicCardBrand.value);
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColorDark,
+                            elevation: 20,
+                          ),
+                          child: Text(
+                            AppStrings.newGraphicCardBrand,
+                            style: TextStyle(
+                              color: ColorManager.CARD_BG_COLOR_DARK,
+                              fontFamily: FontConstants.family,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ],
+                  ],
+                );
+              },
+              listener: (BuildContext context, NewInfoStates state) {
+                if (state is NewInfoAddProcessorGenSuccess) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          );
+        }
+      case AppStrings.newGraphicCardModel:
+        {
+          dialogDetails = BlocProvider(
+            create: (BuildContext context) => sl<NewInfoCubit>()..getAllProcessorBrands(),
+            child: BlocConsumer<NewInfoCubit, NewInfoStates>(
+              builder: (BuildContext context, NewInfoStates state) {
+                var thisCubit = NewInfoCubit.get(context);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GetProcessorBrandComponent(
+                      fromRoute: "New Info",
+                      cubit: thisCubit,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s15Width, vertical: AppSize.s1Height),
+                      child: TextFormField(
+                          onChanged: (value) {
+                            newGraphicCardModel.value = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: AppStrings.graphicCardModel,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontFamily: FontConstants.family,
+                          )),
+                    ),
+                    SizedBox(
+                      height: AppSize.s5Height,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s15Width, vertical: AppSize.s1Height),
+                      child: TextFormField(
+                          onChanged: (value) {
+                            newGraphicCardRamSize.value = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: AppStrings.ramSize,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontFamily: FontConstants.family,
+                          )),
+                    ),
+                    SizedBox(
+                      height: AppSize.s5Height,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: ElevatedButton(
+                          onPressed: () {
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColorDark,
+                            elevation: 20,
+                          ),
+                          child: Text(
+                            AppStrings.newProcessorModel,
+                            style: TextStyle(
+                              color: ColorManager.CARD_BG_COLOR_DARK,
+                              fontFamily: FontConstants.family,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              listener: (BuildContext context, NewInfoStates state) {
+                if (state is NewInfoAddProcessorModelSuccess) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
           );
         }
     }

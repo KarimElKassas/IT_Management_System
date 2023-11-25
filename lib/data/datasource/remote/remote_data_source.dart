@@ -12,6 +12,7 @@ import 'package:it_work/data/models/ram_type_model.dart';
 import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
+import 'package:it_work/domain/usecase/add_graphic_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
 import 'package:it_work/domain/usecase/add_sector_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
@@ -29,7 +30,9 @@ import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 import '../../../core/error/failure.dart';
 import '../../../domain/usecase/add_area_use_case.dart';
 import '../../../domain/usecase/add_department_use_case.dart';
+import '../../../domain/usecase/add_graphic_card_mode_use_case.dart';
 import '../../../domain/usecase/add_processor_brand_use_case.dart';
+import '../../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../../domain/usecase/add_processor_model_use_case.dart';
 import '../../../domain/usecase/get_areas_use_case.dart';
 import '../../../domain/usecase/get_user_use_case.dart';
@@ -60,6 +63,9 @@ abstract class BaseRemoteDataSource{
   Future<String> addDepartment(AddDepartmentParameters parameters);
   Future<String> addProcessorBrand(AddProcessorBrandParameters parameters);
   Future<String> addProcessorModel(AddProcessorModelParameters parameters);
+  Future<String> addProcessorGen(AddProcessorGenParameters parameters);
+  Future<String> addGraphicCardBrand(AddGraphicCardBrandParameters parameters);
+  Future<String> addGraphicCardModel(AddGraphicCardModelParameters parameters);
 
 }
 class RemoteDataSource implements BaseRemoteDataSource{
@@ -329,6 +335,52 @@ class RemoteDataSource implements BaseRemoteDataSource{
   @override
   Future<String> addProcessorModel(AddProcessorModelParameters parameters) async {
     final response = await DioHelper.postData(url: EndPoints.createProcessorCore, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addProcessorGen(AddProcessorGenParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createProcessorGen, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<String> addGraphicCardBrand(AddGraphicCardBrandParameters parameters) async{
+    final response = await DioHelper.postData(url: EndPoints.createGraphicBrand, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if(response.data['success'] == true){
+      return response.data["message"];
+    }else{
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+
+  }
+
+  @override
+  Future<String> addGraphicCardModel(AddGraphicCardModelParameters parameters) async {
+    final response = await DioHelper.postData(url: EndPoints.createGraphicModel, data: parameters.data,
         options: Options(headers: {
           'Authorization': 'Bearer ${parameters.token}',
           'Content-Type': 'application/json; charset=utf-8'

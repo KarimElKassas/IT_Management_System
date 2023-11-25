@@ -1,14 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_work/domain/usecase/add_area_use_case.dart';
+import 'package:it_work/domain/usecase/add_graphic_card_mode_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_pc_model_use_case.dart';
 
+import '../../data/models/graphics_card_brand_model.dart';
 import '../../data/models/processor_brand_model.dart';
 import '../../data/models/processor_model_device_model.dart';
 import '../../data/models/sector_model.dart';
 import '../../domain/usecase/add_department_use_case.dart';
+import '../../domain/usecase/add_graphic_brand_use_case.dart';
+import '../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../domain/usecase/add_processor_model_use_case.dart';
 import '../../domain/usecase/add_sector_use_case.dart';
+import '../../domain/usecase/get_graphic_brands_use_case.dart';
 import '../../domain/usecase/get_processor_brands_use_case.dart';
 import '../../domain/usecase/get_processor_models_use_case.dart';
 import '../../domain/usecase/get_sectors_use_case.dart';
@@ -22,7 +27,12 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
       this.getSectorsUseCase,
       this.addAreaUseCase,
       this.addDepartmentUseCase,
-      this.addProcessorBrandUseCase, this.getProcessorBrandsUseCase, this.addProcessorModelUseCase)
+      this.addProcessorBrandUseCase,
+      this.getProcessorBrandsUseCase,
+      this.addProcessorModelUseCase,
+      this.addProcessorGenUseCase,
+      this.addGraphicCardBrandUseCase,
+      this.addGraphicCardModelUseCase, this.getGraphicBrandsUseCase)
       : super(NewInfoInit());
 
   static NewInfoCubit get(context) => BlocProvider.of(context);
@@ -42,6 +52,15 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
   List<ProcessorBrandModel> brandsList = [];
 
   AddProcessorModelUseCase addProcessorModelUseCase;
+
+  AddProcessorGenUseCase addProcessorGenUseCase;
+
+  AddGraphicCardBrandUseCase addGraphicCardBrandUseCase;
+  GraphicsCardBrandModel? selectedGraphicBrand;
+  List<ProcessorBrandModel> processorBrandList = [];
+  GetGraphicBrandsUseCase getGraphicBrandsUseCase;
+
+  AddGraphicCardModelUseCase addGraphicCardModelUseCase;
 
   // Sector Methods
   Future<void> getAllSectors() async {
@@ -112,8 +131,8 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
       "pcProcessorBrandId": 1,
       "brand": newProcessorBrand
     };
-    final result =
-        await addProcessorBrandUseCase(AddProcessorBrandParameters(sessionToken, data));
+    final result = await addProcessorBrandUseCase(
+        AddProcessorBrandParameters(sessionToken, data));
     result.fold((l) => emit(NewInfoAddProcessorBrandError(l.errMessage)), (r) {
       emit(NewInfoAddProcessorBrandSuccess());
     });
@@ -122,24 +141,24 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
   Future<void> getAllProcessorBrands() async {
     emit(NewInfoLoading());
     final sessionToken = Preference.prefs.getString("sessionToken")!;
-    final result = await getProcessorBrandsUseCase(GetProcessorBrandsParameters(sessionToken));
-    result.fold(
-            (l) => emit(NewInfoGetProcessorBrandsError(l.errMessage)),
-            (r) {
-          brandsList = [];
-          brandsList = r;
-          print(brandsList);
+    final result = await getProcessorBrandsUseCase(
+        GetProcessorBrandsParameters(sessionToken));
+    result.fold((l) => emit(NewInfoGetProcessorBrandsError(l.errMessage)), (r) {
+      brandsList = [];
+      brandsList = r;
+      print(brandsList);
       emit(NewInfoSuccessGetProcessorBrands());
-        });
+    });
   }
 
-  void changeSelectedProcessorBrand(ProcessorBrandModel processorBrandModel){
+  void changeSelectedProcessorBrand(ProcessorBrandModel processorBrandModel) {
     selectedBrand = processorBrandModel;
     emit(NewInfoChangeProcessorBrand());
   }
 
   // Processor Model Methods
-  Future<void> addProcessorModel(String newProcessorModel, int processorBrandId) async {
+  Future<void> addProcessorModel(
+      String newProcessorModel, int processorBrandId) async {
     emit(NewInfoLoading());
     final sessionToken = Preference.prefs.getString("sessionToken")!;
 
@@ -148,10 +167,79 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
       "core": newProcessorModel,
       "pcProcessorCoreId": 1
     };
-    final result =
-    await addProcessorModelUseCase(AddProcessorModelParameters(sessionToken, data));
+    final result = await addProcessorModelUseCase(
+        AddProcessorModelParameters(sessionToken, data));
     result.fold((l) => emit(NewInfoAddProcessorModelError(l.errMessage)), (r) {
       emit(NewInfoAddProcessorModelSuccess());
     });
   }
+
+  // Processor Gen Methods
+  Future<void> addProcessorGen(String newProcessorGen) async {
+    emit(NewInfoLoading());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+
+    Map<String, dynamic> data = {
+      "pcProcessorGenerationId": 0,
+      "generation": newProcessorGen,
+    };
+    final result = await addProcessorGenUseCase(
+        AddProcessorGenParameters(sessionToken, data));
+    result.fold((l) => emit(NewInfoAddProcessorGenError(l.errMessage)), (r) {
+      emit(NewInfoAddProcessorGenSuccess());
+    });
+  }
+
+  //graphic card brand Methods
+  Future<void> addGraphicCardBrand(String newGraphicCardBrand) async {
+    emit(NewInfoLoading());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+
+    Map<String, dynamic> data = {
+      "graphicsCardBrandId": 0,
+      "brand": newGraphicCardBrand,
+    };
+    final result = await addGraphicCardBrandUseCase(
+        AddGraphicCardBrandParameters(sessionToken, data));
+    result.fold((l) => emit(NewInfoAddGraphicCardBrandError(l.errMessage)),
+        (r) {
+      emit(NewInfoAddGraphicCardBrandSuccess());
+    });
+  }
+  void changeSelectedGraphicBrand(GraphicsCardBrandModel graphicsCardBrandModel){
+    selectedGraphicBrand = graphicsCardBrandModel;
+    emit(NewInfoChangeGraphicsCardBrand());
+  }
+  /*Future<void> getAllGraphicBrands() async {
+    emit(NewInfoLoading());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+    final result = await getGraphicBrandsUseCase(GetGraphicBrandsParameters(sessionToken));
+    result.fold(
+            (l) => emit(NewInfoErrorGetGraphicsCardBrand(l.errMessage)),
+            (r) {
+          graphicBrandsList = [];
+          graphicBrandsList = r;
+          emit(NewInfoSuccessGetGraphicsCardBrand());
+        });
+  }*/
+
+  //graphic card model Methods
+  Future<void> addGraphicCardModel(String newGraphicsCardModel, String newRamSize, int graphicCardBrandId) async {
+    emit(NewInfoLoading());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+
+    Map<String, dynamic> data = {
+      "graphicsCardModelId": 0,
+      "model": newGraphicsCardModel,
+      "graphicsRamSize": newRamSize,
+      "graphicsCardBrandId": graphicCardBrandId
+    };
+    final result = await addGraphicCardModelUseCase(AddGraphicCardModelParameters(sessionToken, data));
+    result.fold((l) => emit(NewInfoAddAreaError(l.errMessage)), (r) {
+      emit(
+        NewInfoAddAreaSuccess(),
+      );
+    });
+  }
 }
+

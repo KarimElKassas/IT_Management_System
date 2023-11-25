@@ -29,7 +29,10 @@ import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
 import '../usecase/add_area_use_case.dart';
 import '../usecase/add_department_use_case.dart';
+import '../usecase/add_graphic_brand_use_case.dart';
+import '../usecase/add_graphic_card_mode_use_case.dart';
 import '../usecase/add_processor_brand_use_case.dart';
+import '../usecase/add_processor_gen_use_case.dart';
 import '../usecase/add_processor_model_use_case.dart';
 import '../usecase/get_graphic_brands_use_case.dart';
 import '../usecase/get_user_use_case.dart';
@@ -57,4 +60,7 @@ abstract class BaseRepository {
   Future<Either<Failure,String>> addDepartment(AddDepartmentParameters parameters);
   Future<Either<Failure,String>> addProcessorBrand(AddProcessorBrandParameters parameters);
   Future<Either<Failure,String>> addProcessorModel(AddProcessorModelParameters parameters);
+  Future<Either<Failure,String>> addProcessorGen(AddProcessorGenParameters parameters);
+  Future<Either<Failure,String>> addGraphicsCardBrand(AddGraphicCardBrandParameters parameters);
+  Future<Either<Failure,String>> addGraphicsCardModel(AddGraphicCardModelParameters parameters);
 }

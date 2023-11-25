@@ -15,6 +15,7 @@ import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/repository/base_repository.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
+import 'package:it_work/domain/usecase/add_graphic_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_model_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
@@ -29,6 +30,8 @@ import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 import '../../core/error/failure.dart';
 import '../../domain/usecase/add_area_use_case.dart';
 import '../../domain/usecase/add_department_use_case.dart';
+import '../../domain/usecase/add_graphic_card_mode_use_case.dart';
+import '../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../domain/usecase/add_sector_use_case.dart';
 import '../../domain/usecase/get_user_use_case.dart';
 import '../../domain/usecase/login_user_use_case.dart';
@@ -314,4 +317,44 @@ class ITRepository extends BaseRepository{
       return left(e as ServerFailure);
     }
   }
+
+  @override
+  Future<Either<Failure, String>> addProcessorGen(AddProcessorGenParameters parameters) async {
+    try{
+      final result = await remoteDataSource.addProcessorGen(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addGraphicsCardBrand(AddGraphicCardBrandParameters parameters) async{
+    try{
+      final result = await remoteDataSource.addGraphicCardBrand(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addGraphicsCardModel(AddGraphicCardModelParameters parameters) async{
+    try{
+      final result = await remoteDataSource.addGraphicCardModel(parameters);
+      return Right(result);
+    }catch (e){
+      if (e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
 }
