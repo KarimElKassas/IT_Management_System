@@ -83,10 +83,10 @@ class NewInfoAddGraphicCardBrandError extends NewInfoStates{
 class NewInfoAddGraphicCardBrandSuccess extends NewInfoStates {}
 class NewInfoChangeGraphicsCardBrand extends NewInfoStates {}
 class NewInfoSuccessGetGraphicsCardBrand extends NewInfoStates {}
-class NewInfoGetGraphicsCardBrandError extends NewInfoStates {
+class NewInfoErrorGetGraphicsCardBrand extends NewInfoStates {
   final String error;
 
-  NewInfoGetGraphicsCardBrandError(this.error);
+  NewInfoErrorGetGraphicsCardBrand(this.error);
 }
 
 // Graphics Card Model
@@ -97,3 +97,31 @@ class NewInfoAddGraphicCardModelError extends NewInfoStates{
   NewInfoAddGraphicCardModelError(this.error);
 }
 class NewInfoAddGraphicCardModelSuccess extends NewInfoStates {}
+
+// Ram Type
+class NewInfoAddRamType extends NewInfoStates{}
+class NewInfoAddRamTypeError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddRamTypeError(this.error);
+}
+class NewInfoAddRamTypeSuccess extends NewInfoStates {}
+
+// Device Model
+class NewInfoAddDeviceModel extends NewInfoStates{}
+class NewInfoAddDeviceModelError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddDeviceModelError(this.error);
+}
+class NewInfoAddDeviceModelSuccess extends NewInfoStates {
+
+}
+// Hard Model
+class NewInfoAddHardType extends NewInfoStates{}
+class NewInfoAddHardTypeError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddHardTypeError(this.error);
+}
+class NewInfoAddHardTypeSuccess extends NewInfoStates {}

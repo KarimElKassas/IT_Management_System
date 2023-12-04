@@ -87,7 +87,9 @@ class NewComputerScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector));
+                            showDialog(context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newSector),
+                                barrierDismissible: false
+                            );
                           },
                           child: ListTile(
                             title: Text(
@@ -104,7 +106,15 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment));
+
+                            showDialog(context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newDepartment),
+                                barrierDismissible: false
+                            );
+
+                            // (context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newDepartment
+                            // ),
+                            //   barrierDismissible: false
+                            // );
                           },
                           child: ListTile(
                             title: Text(
@@ -121,7 +131,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: (){
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -138,7 +149,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -155,7 +167,9 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel));
+                            // scaleDialog(context, true, NewComputerDialog(option: AppStrings.newProcessorModel));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -172,7 +186,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -189,7 +204,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -206,7 +222,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel),
+                                barrierDismissible: false);
                           },
                           child: ListTile(
                             title: Text(
@@ -222,6 +239,9 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: () {
+                            scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newGraphicCardSize));
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newGraphicCardSize,
@@ -236,6 +256,11 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: () {
+                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newRamType));
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newRamType),
+                                barrierDismissible: false);
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newRamType,
@@ -264,6 +289,12 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDeviceModel),
+                                barrierDismissible: false);
+
+                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newDeviceModel));
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newDeviceModel,
@@ -278,6 +309,12 @@ class NewComputerScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
+                          onTap: (){
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newPrimaryHardDriveType),
+                                barrierDismissible: false);
+
+                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newPrimaryHardDriveType));
+                          },
                           child: ListTile(
                             title: Text(
                               AppStrings.newPrimaryHardDriveType,
@@ -506,16 +543,12 @@ class NewComputerScreen extends StatelessWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.1,
+                                          width: MediaQuery.sizeOf(context).width * 0.1,
                                           child: Text(
                                             AppStrings.processorBrand,
                                             style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                                fontFamily:
-                                                    FontConstants.family,
+                                                color: Theme.of(context).primaryColorDark,
+                                                fontFamily: FontConstants.family,
                                                 fontSize: AppSize.s20,
                                                 fontWeight: FontWeight.w400),
                                           )),

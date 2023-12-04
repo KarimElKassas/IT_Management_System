@@ -29,11 +29,14 @@ import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
 import '../usecase/add_area_use_case.dart';
 import '../usecase/add_department_use_case.dart';
+import '../usecase/add_device_model_usecase.dart';
 import '../usecase/add_graphic_brand_use_case.dart';
 import '../usecase/add_graphic_card_mode_use_case.dart';
+import '../usecase/add_hard_type_use_case.dart';
 import '../usecase/add_processor_brand_use_case.dart';
 import '../usecase/add_processor_gen_use_case.dart';
 import '../usecase/add_processor_model_use_case.dart';
+import '../usecase/add_ram_type_usecase.dart';
 import '../usecase/get_graphic_brands_use_case.dart';
 import '../usecase/get_user_use_case.dart';
 import '../usecase/login_user_use_case.dart';
@@ -63,4 +66,7 @@ abstract class BaseRepository {
   Future<Either<Failure,String>> addProcessorGen(AddProcessorGenParameters parameters);
   Future<Either<Failure,String>> addGraphicsCardBrand(AddGraphicCardBrandParameters parameters);
   Future<Either<Failure,String>> addGraphicsCardModel(AddGraphicCardModelParameters parameters);
+  Future<Either<Failure,String>> addRamType(AddRamTypeParameters parameters);
+  Future<Either<Failure,String>> addDeviceModel(AddDeviceModelParameters parameters);
+  Future<Either<Failure,String>> addHardType(AddHardTypeParameters parameters);
 }

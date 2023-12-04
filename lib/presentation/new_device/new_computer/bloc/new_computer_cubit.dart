@@ -282,6 +282,7 @@ class NewComputerCubit extends Cubit<NewComputerStates>{
             (r) {
           processorModelList = [];
           processorModelList = r;
+          print("PROCESSOR LIST : $processorModelList");
           emit(NewComputerSuccessGetProcessorModel());
         });
   }

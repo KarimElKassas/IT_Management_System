@@ -229,8 +229,6 @@ class GetSectorsComponent extends StatelessWidget {
             );
           },
         );
-      case "New Laptop":
-
       case "New Info":
       return BlocConsumer<NewInfoCubit, NewInfoStates>(
         bloc: cubit as NewInfoCubit,
@@ -321,6 +319,7 @@ class GetSectorsComponent extends StatelessWidget {
           );
         },
       );
+      case "New Laptop":
       default:
         return BlocConsumer<NewLaptopCubit, NewLaptopStates>(
           bloc: cubit as NewLaptopCubit,
@@ -1842,6 +1841,186 @@ class GetGraphicBrandComponent extends StatelessWidget {
           },
         );
       case "New Computer":
+        return BlocConsumer<NewComputerCubit, NewComputerStates>(
+          bloc: cubit as NewComputerCubit,
+          listener: (context, state){},
+          builder: (context, state){
+            return DropdownButtonHideUnderline(
+              child: DropdownButton2<GraphicsCardBrandModel>(
+                isExpanded: true,
+                hint: Text(
+                  (cubit as NewComputerCubit).selectedGraphicBrand == null ? AppStrings.selectBrand : (cubit as NewComputerCubit).selectedGraphicBrand!.graphicsCardBrandName,
+                  style: TextStyle(
+                    fontSize: AppSize.s14,
+                    fontFamily: FontConstants.family,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                items: (cubit as NewComputerCubit).graphicBrandsList
+                    .map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item.graphicsCardBrandName,
+                    style: const TextStyle(
+                      fontSize: AppSize.s14,
+                    ),
+                  ),
+                ))
+                    .toList(),
+                value: (cubit as NewComputerCubit).selectedGraphicBrand,
+                onChanged: (value) {
+                  (cubit as NewComputerCubit).changeSelectedGraphicBrand(value!);
+                },
+                buttonStyleData: ButtonStyleData(
+                    height: 40,
+                    width: 220,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                    )
+                ),
+                dropdownStyleData: DropdownStyleData(
+                    maxHeight: 300,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                    )
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                ),
+                style: TextStyle(color: ColorManager.darkSecondColor),
+                dropdownSearchData: DropdownSearchData(
+                  searchController: textEditingController,
+                  searchInnerWidgetHeight: 50,
+                  searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: ReusableComponents.registerTextField(
+                        context: context,
+                        background: Colors.transparent,
+                        borderColor: ColorManager.darkSecondColor,
+                        textInputType: TextInputType.text,
+                        hintText: AppStrings.searchForBrand,
+                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                        controller: textEditingController,
+                        validate: (value) {}, onChanged: (String? value) {}),
+                  ),
+                  searchMatchFn: (item, searchValue) {
+                    return (item.value.toString().contains(searchValue));
+                  },
+                ),
+                //This to clear the search value when you close the menu
+                onMenuStateChange: (isOpen) {
+                  if (!isOpen) {
+                    textEditingController.clear();
+                  }
+                },
+              ),
+            );
+          },
+        );
+      case "New Info" :
+        return BlocConsumer<NewInfoCubit, NewInfoStates>(
+          bloc: cubit as NewInfoCubit,
+          listener: (context, state){},
+          builder: (context, state){
+            return DropdownButtonHideUnderline(
+              child: DropdownButton2<GraphicsCardBrandModel>(
+                isExpanded: true,
+                autofocus: true,
+                hint: Text(
+                  (cubit as NewInfoCubit).selectedGraphicBrand == null ? AppStrings.selectBrand : (cubit as NewInfoCubit).selectedGraphicBrand!.graphicsCardBrandName,
+                  style: TextStyle(
+                    fontSize: AppSize.s14,
+                    fontFamily: FontConstants.family,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                items: (cubit as NewInfoCubit).graphicBrandsList
+                    .map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item.graphicsCardBrandName,
+                    style: const TextStyle(
+                      fontSize: AppSize.s14,
+                    ),
+                  ),
+                ))
+                    .toList(),
+                value: (cubit as NewInfoCubit).selectedGraphicBrand,
+                onChanged: (value) {
+                  (cubit as NewInfoCubit).changeSelectedGraphicBrand(value!);
+                },
+                buttonStyleData: ButtonStyleData(
+                    height: 40,
+                    width: 220,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                    )
+                ),
+                dropdownStyleData: DropdownStyleData(
+                    maxHeight: 300,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                    )
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                ),
+                style: TextStyle(color: ColorManager.darkSecondColor),
+                dropdownSearchData: DropdownSearchData(
+                  searchController: textEditingController,
+                  searchInnerWidgetHeight: 50,
+                  searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: ReusableComponents.registerTextField(
+                        context: context,
+                        background: Colors.transparent,
+                        borderColor: ColorManager.darkSecondColor,
+                        textInputType: TextInputType.text,
+                        hintText: AppStrings.searchForSector,
+                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                        controller: textEditingController,
+                        validate: (value) {}, onChanged: (String? value) {}),
+                  ),
+                  searchMatchFn: (item, searchValue) {
+                    return (item.value.toString().contains(searchValue));
+                  },
+                ),
+                //This to clear the search value when you close the menu
+                onMenuStateChange: (isOpen) {
+                  if (!isOpen) {
+                    textEditingController.clear();
+                  }
+                },
+              ),
+            );
+          },
+        );
       default:
         return BlocConsumer<NewComputerCubit, NewComputerStates>(
           bloc: cubit as NewComputerCubit,
@@ -1932,7 +2111,9 @@ class GetGraphicBrandComponent extends StatelessWidget {
             );
           },
         );
+
     }
+
   }
 }
 class GetGraphicModelComponent extends StatelessWidget {

@@ -157,6 +157,7 @@ class LoginScreen extends StatelessWidget {
 
                                               if (formKey.currentState!.validate()) {
                                                 await cubit.loginUser();
+                                                // LoginCubit.get(context).navigate(context);
                                               }
                                             }, borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12)), overlayColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColorDark.withOpacity(AppSize.s0_2))),
                                           ],
