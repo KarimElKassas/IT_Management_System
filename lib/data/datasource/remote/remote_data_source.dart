@@ -30,6 +30,7 @@ import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../domain/usecase/add_area_use_case.dart';
+import '../../../domain/usecase/add_department_area_use_case.dart';
 import '../../../domain/usecase/add_department_use_case.dart';
 import '../../../domain/usecase/add_device_model_usecase.dart';
 import '../../../domain/usecase/add_graphic_card_mode_use_case.dart';
@@ -37,6 +38,7 @@ import '../../../domain/usecase/add_processor_brand_use_case.dart';
 import '../../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../../domain/usecase/add_processor_model_use_case.dart';
 import '../../../domain/usecase/add_ram_type_usecase.dart';
+import '../../../domain/usecase/get_all_areas_use_case.dart';
 import '../../../domain/usecase/get_areas_use_case.dart';
 import '../../../domain/usecase/get_user_use_case.dart';
 import '../../../domain/usecase/login_user_use_case.dart';
@@ -72,12 +74,8 @@ abstract class BaseRemoteDataSource{
   Future<String> addRamType(AddRamTypeParameters parameters);
   Future<String> addDeviceModel(AddDeviceModelParameters parameters);
   Future<String> addHardType(AddHardTypeParameters parameters);
-
-
-
-
-
-
+  Future<String> addDepartmentArea(AddDepartmentAreaParameters parameters);
+  Future<List<AreaModel>> getAllAreas(GetAllAreasParameters parameters);
 }
 class RemoteDataSource implements BaseRemoteDataSource {
   @override
@@ -352,7 +350,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
         }));
     print("RESPONSE : $response");
     if (response.data['success'] == true) {
-      return response.data["message"];
+      return response.data["data"].toString();
     } else {
       throw ServerFailure(response.data['errors'][0].toString());
     }
@@ -489,6 +487,35 @@ class RemoteDataSource implements BaseRemoteDataSource {
     } else {
       throw ServerFailure(response.data['errors'][0].toString());
     }
+  }
+
+  @override
+  Future<String> addDepartmentArea(AddDepartmentAreaParameters parameters) async {
+    final response = await DioHelper.postData(
+        url: EndPoints.createDepartmentArea, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return response.data["success"].toString();
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString());
+    }
+  }
+
+  @override
+  Future<List<AreaModel>> getAllAreas(GetAllAreasParameters parameters) async {
+    final response = await DioHelper.getData(
+        url: EndPoints.getAllAreas,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("DATA MAP : ${response.data}");
+    return List<AreaModel>.from(
+        (response.data['data'] as List).map((e) => AreaModel.fromJson(e)));
   }
 
 }

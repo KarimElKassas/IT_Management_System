@@ -886,6 +886,96 @@ class GetAreasComponent extends StatelessWidget {
             );
           },
         );
+      case "New Info":
+        return BlocConsumer<NewInfoCubit, NewInfoStates>(
+          bloc: cubit as NewInfoCubit,
+          listener: (context, state){},
+          builder: (context, state){
+            return DropdownButtonHideUnderline(
+              child: DropdownButton2<AreaModel>(
+                isExpanded: true,
+                hint: Text(
+                  (cubit as NewInfoCubit).selectedArea == null ? AppStrings.selectArea : (cubit as NewInfoCubit).selectedArea!.areaName,
+                  style: TextStyle(
+                    fontSize: AppSize.s14,
+                    fontFamily: FontConstants.family,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                items: (cubit as NewInfoCubit).areasList
+                    .map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item.areaName,
+                    style: const TextStyle(
+                      fontSize: AppSize.s14,
+                    ),
+                  ),
+                ))
+                    .toList(),
+                value: (cubit as NewInfoCubit).selectedArea,
+                onChanged: (value) {
+                  (cubit as NewInfoCubit).changeSelectedArea(value!);
+                },
+                buttonStyleData: ButtonStyleData(
+                    height: 40,
+                    width: 220,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s6, vertical: AppSize.s2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      border: Border.all(color: Theme.of(context).primaryColorDark, width: AppSize.s1),
+                      borderRadius: const BorderRadius.all(Radius.circular(AppSize.s6)),
+                    )
+                ),
+                dropdownStyleData: DropdownStyleData(
+                    maxHeight: 300,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColorDark,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(AppSize.s6), bottomRight: Radius.circular(AppSize.s6))
+                    )
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                ),
+                style: TextStyle(color: ColorManager.darkSecondColor),
+                dropdownSearchData: DropdownSearchData(
+                  searchController: textEditingController,
+                  searchInnerWidgetHeight: 50,
+                  searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: ReusableComponents.registerTextField(
+                        context: context,
+                        background: Colors.transparent,
+                        borderColor: ColorManager.darkSecondColor,
+                        textInputType: TextInputType.text,
+                        hintText: AppStrings.searchForArea,
+                        textStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        hintStyle: TextStyle(color: ColorManager.darkSecondColor, fontSize: 14, fontFamily: FontConstants.family),
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: Icon(IconlyBroken.search, color: Theme.of(context).primaryColorLight),
+                        controller: textEditingController,
+                        validate: (value) {}, onChanged: (String? value) {}),
+                  ),
+                  searchMatchFn: (item, searchValue) {
+                    return (item.value.toString().contains(searchValue));
+                  },
+                ),
+                //This to clear the search value when you close the menu
+                onMenuStateChange: (isOpen) {
+                  if (!isOpen) {
+                    textEditingController.clear();
+                  }
+                },
+              ),
+            );
+          },
+        );
       case "New Computer":
       default:
         return BlocConsumer<NewComputerCubit, NewComputerStates>(

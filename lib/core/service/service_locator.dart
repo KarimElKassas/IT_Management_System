@@ -26,6 +26,7 @@ import 'package:it_work/presentation/repair_department/new_repair/bloc/new_repai
 import 'package:it_work/presentation/repair_department/repair_home/bloc/repair_home_cubit.dart';
 import 'package:it_work/presentation/shared_cubit/new_info_cubit.dart';
 
+import '../../domain/usecase/add_department_area_use_case.dart';
 import '../../domain/usecase/add_department_use_case.dart';
 import '../../domain/usecase/add_device_model_usecase.dart';
 import '../../domain/usecase/add_graphic_brand_use_case.dart';
@@ -35,6 +36,7 @@ import '../../domain/usecase/add_processor_brand_use_case.dart';
 import '../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../domain/usecase/add_processor_model_use_case.dart';
 import '../../domain/usecase/add_ram_type_usecase.dart';
+import '../../domain/usecase/get_all_areas_use_case.dart';
 import '../../domain/usecase/login_user_use_case.dart';
 import '../../presentation/new_device/new_computer/bloc/new_computer_cubit.dart';
 import '../../presentation/new_device/new_laptop/bloc/new_laptop_cubit.dart';
@@ -53,7 +55,7 @@ class ServiceLocator {
     sl.registerFactory(() => NewLaptopCubit(sl(), sl(), sl(), sl(), sl(), sl(),
         sl(), sl(), sl(), sl(), sl(), sl()));
     sl.registerFactory(() => NewPcScreenCubit(sl(), sl(), sl(), sl(), sl()));
-    sl.registerFactory(() => NewInfoCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(),sl(),sl(),sl(), sl(), sl(),sl()));
+    sl.registerFactory(() => NewInfoCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(),sl(),sl(),sl(), sl(), sl(),sl(), sl(), sl(), sl()));
     /// fake push to features/addDevice
     /// Remote Data Source
     sl.registerLazySingleton<BaseRemoteDataSource>(() => RemoteDataSource());
@@ -108,6 +110,9 @@ class ServiceLocator {
             () => AddDeviceModelUseCase(sl()));
     sl.registerLazySingleton<AddHardTypeUseCase>(
             () => AddHardTypeUseCase(sl()));
+    sl.registerLazySingleton<AddDepartmentAreaUseCase>(
+            () => AddDepartmentAreaUseCase(sl()));
+    sl.registerLazySingleton<GetAllAreasUseCase>(() => GetAllAreasUseCase(sl()));
 
   }
 }

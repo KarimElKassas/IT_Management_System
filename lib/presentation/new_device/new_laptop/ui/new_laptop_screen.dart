@@ -12,10 +12,14 @@ import '../../../../resources/color_manager.dart';
 import '../../../../resources/font_manager.dart';
 import '../../../../resources/strings_manager.dart';
 import '../../../../resources/values_manager.dart';
+import '../../../../utils/constant.dart';
+import '../../new_computer/ui/new_computer_dialog.dart';
 
 class NewLaptopScreen extends StatelessWidget {
   NewLaptopScreen({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +53,259 @@ class NewLaptopScreen extends StatelessWidget {
               child: Form(
                 key: formKey,
                 child: Scaffold(
+                  key: _key,
+                  drawer: Drawer(
+                    child: ListView(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector, cubit: cubit),
+                                barrierDismissible: false
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newSector,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment, cubit: cubit),
+                                barrierDismissible: false
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newDepartment,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: (){
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newArea,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorBrand,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newProcessorGen,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardBrand,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newGraphicCardSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newRamType, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newRamType,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newRamSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDeviceModel, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newDeviceModel,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          onTap: (){
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newPrimaryHardDriveType, cubit: cubit),
+                                barrierDismissible: false);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newPrimaryHardDriveType,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(),
+                        InkWell(
+                          child: ListTile(
+                            title: Text(
+                              AppStrings.newPrimaryHardDriveSize,
+                              style: TextStyle(
+                                color: ColorManager.CARD_BG_COLOR_DARK,
+                                fontFamily: FontConstants.family,
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   appBar: AppBar(
-                    automaticallyImplyLeading: true,
                     backgroundColor: ColorManager.CARD_BG_COLOR_DARK,
                     elevation: 2,
                     title: Text(
@@ -61,6 +316,50 @@ class NewLaptopScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: AppSize.s18),
                     ),
+                    leading: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Constants.currentLocale == 'ar'
+                          ? const Icon(Icons.arrow_back)
+                          : const Icon(Icons.arrow_forward),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          _key.currentState!.openDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(AppSize.s12),
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppStrings.add,
+                                  style: TextStyle(
+                                      color: ColorManager.CARD_BG_COLOR_DARK,
+                                      fontFamily: FontConstants.family,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: AppSize.s18),
+                                ),
+                                const SizedBox(width: AppSize.s16,),
+                                Icon(
+                                  Icons.add,
+                                  color: ColorManager.CARD_BG_COLOR_DARK,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   backgroundColor: Theme.of(context).primaryColorLight,
                   body: FadeIn(

@@ -29,6 +29,14 @@ class NewInfoAddAreaError extends NewInfoStates{
   NewInfoAddAreaError(this.error);
 }
 class NewInfoAddAreaSuccess extends NewInfoStates {}
+class NewInfoChangeArea extends NewInfoStates {}
+class NewInfoLoadingAreas extends NewInfoStates {}
+class NewInfoErrorGetAreas extends NewInfoStates {
+  final String error;
+
+  NewInfoErrorGetAreas(this.error);
+}
+class NewInfoSuccessGetAreas extends NewInfoStates {}
 
 // Department
 class NewInfoAddDepartment extends NewInfoStates{}
@@ -37,7 +45,20 @@ class NewInfoAddDepartmentError extends NewInfoStates{
 
   NewInfoAddDepartmentError(this.error);
 }
-class NewInfoAddDepartmentSuccess extends NewInfoStates {}
+class NewInfoAddDepartmentSuccess extends NewInfoStates {
+  final String departmentId;
+
+  NewInfoAddDepartmentSuccess(this.departmentId);
+}
+
+// Department Area
+class NewInfoAddDepartmentArea extends NewInfoStates{}
+class NewInfoAddDepartmentAreaError extends NewInfoStates{
+  final String error;
+
+  NewInfoAddDepartmentAreaError(this.error);
+}
+class NewInfoAddDepartmentAreaSuccess extends NewInfoStates {}
 
 // Processor Brand
 class NewInfoAddProcessorBrand extends NewInfoStates{}

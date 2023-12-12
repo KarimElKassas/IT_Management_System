@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_work/domain/usecase/add_area_use_case.dart';
 import 'package:it_work/domain/usecase/add_graphic_card_mode_use_case.dart';
@@ -5,10 +7,12 @@ import 'package:it_work/domain/usecase/add_hard_type_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_pc_model_use_case.dart';
 
+import '../../data/models/area_model.dart';
 import '../../data/models/graphics_card_brand_model.dart';
 import '../../data/models/processor_brand_model.dart';
 import '../../data/models/processor_model_device_model.dart';
 import '../../data/models/sector_model.dart';
+import '../../domain/usecase/add_department_area_use_case.dart';
 import '../../domain/usecase/add_department_use_case.dart';
 import '../../domain/usecase/add_device_model_usecase.dart';
 import '../../domain/usecase/add_graphic_brand_use_case.dart';
@@ -16,6 +20,8 @@ import '../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../domain/usecase/add_processor_model_use_case.dart';
 import '../../domain/usecase/add_ram_type_usecase.dart';
 import '../../domain/usecase/add_sector_use_case.dart';
+import '../../domain/usecase/get_all_areas_use_case.dart';
+import '../../domain/usecase/get_areas_use_case.dart';
 import '../../domain/usecase/get_graphic_brands_use_case.dart';
 import '../../domain/usecase/get_processor_brands_use_case.dart';
 import '../../domain/usecase/get_processor_models_use_case.dart';
@@ -37,7 +43,7 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
       this.addGraphicCardBrandUseCase,
       this.addGraphicCardModelUseCase,
       this.getGraphicBrandsUseCase,
-      this.addRamTypeUseCase, this.addDeviceModelUseCase,this.addHardTypeUseCase)
+      this.addRamTypeUseCase, this.addDeviceModelUseCase,this.addHardTypeUseCase, this.addDepartmentAreaUseCase, this.getAreasUseCase, this.getAllAreasUseCase)
       : super(NewInfoInit());
 
   static NewInfoCubit get(context) => BlocProvider.of(context);
@@ -48,8 +54,14 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
   List<SectorModel> sectorsList = [];
 
   AddAreaUseCase addAreaUseCase;
+  GetAreasUseCase getAreasUseCase;
+  AreaModel? selectedArea;
+  List<AreaModel> areasList = [];
+  GetAllAreasUseCase getAllAreasUseCase;
 
   AddDepartmentUseCase addDepartmentUseCase;
+
+  AddDepartmentAreaUseCase addDepartmentAreaUseCase;
 
   AddProcessorBrandUseCase addProcessorBrandUseCase;
   GetProcessorBrandsUseCase getProcessorBrandsUseCase;
@@ -118,6 +130,23 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
       );
     });
   }
+  void changeSelectedArea(AreaModel areaModel) {
+    selectedArea = areaModel;
+    emit(NewInfoChangeArea());
+  }
+
+  Future<void> getAllAreas() async {
+    emit(NewInfoLoadingAreas());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+    final result = await getAllAreasUseCase(GetAllAreasParameters(sessionToken));
+    result.fold(
+            (l) => emit(NewInfoErrorGetAreas(l.errMessage)),
+            (r) {
+          areasList = [];
+          areasList = r;
+          emit(NewInfoSuccessGetAreas());
+        });
+  }
 
   // Department Methods
   Future<void> addDepartment(String newDepartment) async {
@@ -128,8 +157,32 @@ class NewInfoCubit extends Cubit<NewInfoStates> {
     final result =
         await addDepartmentUseCase(AddDepartmentParameters(sessionToken, data));
     result.fold((l) => emit(NewInfoAddDepartmentError(l.errMessage)), (r) {
-      emit(NewInfoAddDepartmentSuccess());
+      emit(NewInfoAddDepartmentSuccess(r));
     });
+  }
+
+  // Department Area Methods
+  Future<String> addDepartmentArea(String newDepartmentId, int areaId) async {
+    emit(NewInfoLoading());
+    final sessionToken = Preference.prefs.getString("sessionToken")!;
+
+    Map<String, dynamic> data = {
+      "departmentAreaId": 0,
+      "departmentId": int.parse(newDepartmentId),
+      "areaId": areaId
+    };
+    final result =
+    await addDepartmentAreaUseCase(AddDepartmentAreaParameters(sessionToken, data));
+    result.fold((l) {
+      emit(NewInfoAddDepartmentAreaError(l.errMessage));
+      return '';
+    } , (r) {
+      emit(NewInfoAddDepartmentAreaSuccess());
+      print(r);
+      return r;
+    });
+
+    return '';
   }
 
   // Processor Brand Methods

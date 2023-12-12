@@ -28,6 +28,7 @@ import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
 import '../usecase/add_area_use_case.dart';
+import '../usecase/add_department_area_use_case.dart';
 import '../usecase/add_department_use_case.dart';
 import '../usecase/add_device_model_usecase.dart';
 import '../usecase/add_graphic_brand_use_case.dart';
@@ -37,6 +38,7 @@ import '../usecase/add_processor_brand_use_case.dart';
 import '../usecase/add_processor_gen_use_case.dart';
 import '../usecase/add_processor_model_use_case.dart';
 import '../usecase/add_ram_type_usecase.dart';
+import '../usecase/get_all_areas_use_case.dart';
 import '../usecase/get_graphic_brands_use_case.dart';
 import '../usecase/get_user_use_case.dart';
 import '../usecase/login_user_use_case.dart';
@@ -69,4 +71,6 @@ abstract class BaseRepository {
   Future<Either<Failure,String>> addRamType(AddRamTypeParameters parameters);
   Future<Either<Failure,String>> addDeviceModel(AddDeviceModelParameters parameters);
   Future<Either<Failure,String>> addHardType(AddHardTypeParameters parameters);
+  Future<Either<Failure,String>> addDepartmentArea(AddDepartmentAreaParameters parameters);
+  Future<Either<Failure, List<AreaModel>>> getAllAreas(GetAllAreasParameters parameters);
 }

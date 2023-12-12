@@ -14,6 +14,7 @@ import 'package:it_work/data/models/ram_type_model.dart';
 import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
 import 'package:it_work/domain/repository/base_repository.dart';
+import 'package:it_work/domain/usecase/add_department_area_use_case.dart';
 import 'package:it_work/domain/usecase/add_device_model_usecase.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
 import 'package:it_work/domain/usecase/add_graphic_brand_use_case.dart';
@@ -22,6 +23,7 @@ import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_model_use_case.dart';
 import 'package:it_work/domain/usecase/add_ram_type_usecase.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
+import 'package:it_work/domain/usecase/get_all_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
 import 'package:it_work/domain/usecase/get_hard_type_use_case.dart';
@@ -413,6 +415,32 @@ class ITRepository extends BaseRepository {
       AddHardTypeParameters parameters) async {
     try {
       final result = await remoteDataSource.addHardType(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addDepartmentArea(AddDepartmentAreaParameters parameters) async {
+    try {
+      final result = await remoteDataSource.addDepartmentArea(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<AreaModel>>> getAllAreas(GetAllAreasParameters parameters) async {
+    try {
+      final result = await remoteDataSource.getAllAreas(parameters);
       return Right(result);
     } catch (e) {
       if (e is DioException) {

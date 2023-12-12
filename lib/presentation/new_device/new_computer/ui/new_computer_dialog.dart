@@ -3,17 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_work/presentation/shared_cubit/new_info_cubit.dart';
 import 'package:it_work/resources/strings_manager.dart';
 import 'package:it_work/resources/values_manager.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../core/service/service_locator.dart';
 import '../../../../resources/color_manager.dart';
 import '../../../../resources/font_manager.dart';
 import '../../../../utils/components.dart';
 import '../../../shared_cubit/new_info_states.dart';
+import '../bloc/new_computer_cubit.dart';
 
 class NewComputerDialog extends StatelessWidget {
-  const NewComputerDialog({Key? key, required this.option}) : super(key: key);
+  NewComputerDialog({Key? key, required this.option,this.cubit}) : super(key: key);
 
   final String option;
+  var cubit;
+
 
   // var cubit;
 
@@ -41,30 +45,32 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (context, state) {
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newSector,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newSector.value = value;
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                 // hintText: AppStrings.department,
 
                                 labelStyle:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
-                                labelText: AppStrings.newSector,
-                                focusedBorder: OutlineInputBorder(
+                                    const TextStyle(fontSize: 18, color: Colors.grey),
+                                labelText: AppStrings.sector,
+                                focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
@@ -83,8 +89,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
                                 onPressed: () {
                                   context
@@ -102,19 +108,20 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newSector,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
@@ -122,9 +129,10 @@ class NewComputerDialog extends StatelessWidget {
                                               ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -135,8 +143,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -150,20 +158,20 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),
@@ -173,6 +181,7 @@ class NewComputerDialog extends StatelessWidget {
                                           Icons.close,
                                           color:
                                               ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -188,6 +197,7 @@ class NewComputerDialog extends StatelessWidget {
               listener: (context, state) {
                 if (state is NewInfoAddSectorSuccess) {
                   Navigator.pop(context);
+                  cubit?.getAllSectors();
                 }
               },
             ),
@@ -196,159 +206,179 @@ class NewComputerDialog extends StatelessWidget {
       case AppStrings.newDepartment:
         {
           dialogDetails = BlocProvider(
-            create: (BuildContext context) => sl<NewInfoCubit>(),
+            create: (BuildContext context) => sl<NewInfoCubit>()..getAllAreas(),
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
                 builder: (context, state) {
-              return SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          cursorColor: Colors.grey,
-                          onChanged: (value) {
-                            newDepartment.value = value;
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
-                            labelStyle: const TextStyle(
-                                fontSize: 18, color: Colors.grey),
-                            labelText: AppStrings.department,
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                          ),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: FontConstants.family,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // SizedBox( height: MediaQuery.sizeOf(context).height * 0.05,),
-                    // const SizedBox(
-                    //   height: AppSize.s8,
-                    // ),
-                    Row(
+                  var thisCubit = NewInfoCubit.get(context);
+                  return SizedBox(
+                    // width: MediaQuery.sizeOf(context).width * 0.2,
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        const SizedBox(
+                          child: Text(AppStrings.newDepartment,style: TextStyle(fontSize: 20, color:Colors.white),),
+                        ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: AppSize.s20),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.01,vertical: MediaQuery.of(context).size.height*.01),
                           child: SizedBox(
-                            height: 50,
-                            width: 250,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                context
-                                    .read<NewInfoCubit>()
-                                    .addDepartment(newDepartment.value);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColorDark,
-                                  elevation: 1,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(50)))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    AppStrings.newDepartment,
-                                    style: TextStyle(
-                                      color: ColorManager.CARD_BG_COLOR_DARK,
-                                      fontFamily: FontConstants.family,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorManager.CARD_BG_COLOR_DARK,
-                                      ),
-                                      //
-                                      child: const Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      )),
-                                ],
-                              ),
+                            height: MediaQuery.of(context).size.height*.05,
+                            width: MediaQuery.of(context).size.width*.36,
+                            child: GetAreasComponent(
+                              fromRoute: "New Info",
+                              cubit: thisCubit,
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: AppSize.s20),
-                          child: SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // context
-                                //     .read<NewInfoCubit>()
-                                //     .addDepartment(newDepartment.value);
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent,
-                                  elevation: 1,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(50)))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "الغاء",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: FontConstants.family,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19),
+                        SizedBox(
+                          // width: 200,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
+                            child: TextFormField(
+                                cursorColor: Colors.grey,
+                                onChanged: (value) {
+                                  newDepartment.value = value;
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
+                                  // hintText: AppStrings.department,
+
+                                  labelStyle:
+                                  const TextStyle(fontSize: 18, color: Colors.grey),
+                                  labelText: AppStrings.department,
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                   ),
-                                  const SizedBox(
-                                    width: 8,
+                                ),
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColorDark,
+                                  fontFamily: FontConstants.family,
+                                )),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSize.s20),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height*.05,
+                                width: MediaQuery.of(context).size.width*.18,
+                                child: ElevatedButton(
+                                onPressed: () {
+                                    context
+                                        .read<NewInfoCubit>()
+                                        .addDepartment(newDepartment.value);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                      Theme.of(context).primaryColorDark,
+                                      elevation: 1,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "اضافة",
+                                        style: TextStyle(
+                                          color: ColorManager.CARD_BG_COLOR_DARK,
+                                          fontFamily: FontConstants.family,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 5.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width*.005,
+                                      ),
+                                      Container(
+                                          height: MediaQuery.of(context).size.height*.03,
+                                          width: MediaQuery.of(context).size.height*.03,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(20),
+                                            color:
+                                            ColorManager.CARD_BG_COLOR_DARK,
+                                          ),
+                                          //
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: MediaQuery.of(context).size.height*.025,
+                                          )),
+                                    ],
                                   ),
-                                  Container(
-                                      height: 25,
-                                      width: 25,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Colors.white),
-                                      //
-                                      child: Icon(
-                                        Icons.close,
-                                        color: ColorManager.CARD_BG_COLOR_DARK,
-                                      )),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSize.s20),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height*.05,
+                                width: MediaQuery.of(context).size.width*.11,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      elevation: 1,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "الغاء",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: FontConstants.family,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 5.sp),
+                                      ),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width*.005,
+                                      ),
+                                      Container(
+                                          height: MediaQuery.of(context).size.height*.03,
+                                          width: MediaQuery.of(context).size.height*.03,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(20),
+                                              color: Colors.white),
+                                          //
+                                          child: Icon(
+                                            Icons.close,
+                                            color:
+                                            ColorManager.CARD_BG_COLOR_DARK,
+                                            size: MediaQuery.of(context).size.height*.025,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              );
-            }, listener: (context, state) {
-              if (state is NewInfoAddDepartmentSuccess) {
-                Navigator.pop(context);
+                  );
+            }, listener: (context, state) async {
+              if (state is NewInfoAddDepartmentSuccess)  {
+                int selectedAreaId = context.read<NewInfoCubit>().selectedArea!.areaId;
+               String status = await context.read<NewInfoCubit>().addDepartmentArea(state.departmentId, selectedAreaId);
+                if (state is NewInfoAddDepartmentAreaSuccess) {
+                  Navigator.pop(context);
+                }
+
               }
             }),
           );
@@ -361,229 +391,28 @@ class NewComputerDialog extends StatelessWidget {
               builder: (context, state) {
                 var thisCubit = NewInfoCubit.get(context);
 
-                // return SizedBox(
-                //   width: MediaQuery.sizeOf(context).width * 0.2,
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       const SizedBox(
-                //         width: 200,
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(horizontal: 8),
-                //         child: GetSectorsComponent(
-                //           fromRoute: "New Info",
-                //           cubit: thisCubit,
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(
-                //             vertical: 16, horizontal: 8),
-                //         child: TextFormField(
-                //           cursorColor: Colors.grey,
-                //           onChanged: (value) {
-                //             newArea.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             contentPadding: const EdgeInsets.symmetric(
-                //                 vertical: 20, horizontal: 20),
-                //             labelStyle: const TextStyle(
-                //                 fontSize: 18, color: Colors.grey),
-                //             labelText: AppStrings.area,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(10)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(
-                //         height: AppSize.s16,
-                //       ),
-                //       // Padding(
-                //       //   padding: const EdgeInsets.symmetric(
-                //       //       horizontal: 20, vertical: 8),
-                //       //   child: Align(
-                //       //     alignment: Alignment.bottomLeft,
-                //       //     child: ElevatedButton(
-                //       //       onPressed: () {
-                //       //         String selectedSectorName = context
-                //       //             .read<NewInfoCubit>()
-                //       //             .selectedSector!
-                //       //             .sectorName;
-                //       //
-                //       //         int selectedSectorId = context
-                //       //             .read<NewInfoCubit>()
-                //       //             .selectedSector!
-                //       //             .sectorId;
-                //       //
-                //       //         context.read<NewInfoCubit>().addArea(
-                //       //             selectedSectorId,
-                //       //             selectedSectorName,
-                //       //             newArea.value);
-                //       //       },
-                //       //       style: ElevatedButton.styleFrom(
-                //       //         backgroundColor:
-                //       //             Theme.of(context).primaryColorDark,
-                //       //         elevation: 20,
-                //       //       ),
-                //       //       child: Text(
-                //       //         AppStrings.newArea,
-                //       //         style: TextStyle(
-                //       //           color: ColorManager.CARD_BG_COLOR_DARK,
-                //       //           fontFamily: FontConstants.family,
-                //       //           fontWeight: FontWeight.bold,
-                //       //         ),
-                //       //       ),
-                //       //     ),
-                //       //   ),
-                //       // ),
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           Padding(
-                //             padding: const EdgeInsets.symmetric(
-                //                 horizontal: AppSize.s20),
-                //             child: SizedBox(
-                //               height: 50,
-                //               width: 250,
-                //               child: ElevatedButton(
-                //                 onPressed: () {
-                //                   String selectedSectorName = context
-                //                       .read<NewInfoCubit>()
-                //                       .selectedSector!
-                //                       .sectorName;
-                //
-                //                   int selectedSectorId = context
-                //                       .read<NewInfoCubit>()
-                //                       .selectedSector!
-                //                       .sectorId;
-                //
-                //                   context.read<NewInfoCubit>().addArea(
-                //                       selectedSectorId,
-                //                       selectedSectorName,
-                //                       newArea.value);
-                //                 },
-                //                 style: ElevatedButton.styleFrom(
-                //                     backgroundColor:
-                //                         Theme.of(context).primaryColorDark,
-                //                     elevation: 1,
-                //                     shape: const RoundedRectangleBorder(
-                //                         borderRadius: BorderRadius.all(
-                //                             Radius.circular(50)))),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     Text(
-                //                       AppStrings.newArea,
-                //                       style: TextStyle(
-                //                         color: ColorManager.CARD_BG_COLOR_DARK,
-                //                         fontFamily: FontConstants.family,
-                //                         fontWeight: FontWeight.bold,
-                //                       ),
-                //                     ),
-                //                     const SizedBox(
-                //                       width: 8,
-                //                     ),
-                //                     Container(
-                //                         height: 30,
-                //                         width: 30,
-                //                         decoration: BoxDecoration(
-                //                           borderRadius:
-                //                               BorderRadius.circular(20),
-                //                           color:
-                //                               ColorManager.CARD_BG_COLOR_DARK,
-                //                         ),
-                //                         //
-                //                         child: const Icon(
-                //                           Icons.add,
-                //                           color: Colors.white,
-                //                         )),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //           Padding(
-                //             padding: const EdgeInsets.symmetric(
-                //                 horizontal: AppSize.s20),
-                //             child: SizedBox(
-                //               height: 50,
-                //               width: 150,
-                //               child: ElevatedButton(
-                //                 onPressed: () {
-                //                   // context
-                //                   //     .read<NewInfoCubit>()
-                //                   //     .addDepartment(newDepartment.value);
-                //                   Navigator.pop(context);
-                //                 },
-                //                 style: ElevatedButton.styleFrom(
-                //                     backgroundColor: Colors.redAccent,
-                //                     elevation: 1,
-                //                     shape: const RoundedRectangleBorder(
-                //                         borderRadius: BorderRadius.all(
-                //                             Radius.circular(50)))),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     const Text(
-                //                       "الغاء",
-                //                       style: TextStyle(
-                //                           color: Colors.white,
-                //                           fontFamily: FontConstants.family,
-                //                           fontWeight: FontWeight.bold,
-                //                           fontSize: 19),
-                //                     ),
-                //                     const SizedBox(
-                //                       width: 8,
-                //                     ),
-                //                     Container(
-                //                         height: 25,
-                //                         width: 25,
-                //                         decoration: BoxDecoration(
-                //                             borderRadius:
-                //                                 BorderRadius.circular(20),
-                //                             color: Colors.white),
-                //                         //
-                //                         child: Icon(
-                //                           Icons.close,
-                //                           color:
-                //                               ColorManager.CARD_BG_COLOR_DARK,
-                //                         )),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // );
-
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  // width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Column(
                           children: [
+                            const SizedBox(
+                              child: Text(AppStrings.newArea,style: TextStyle(fontSize: 20, color:Colors.white),),
+                            ),
+                            SizedBox(
+                              height:MediaQuery.of(context).size.height*.005,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.01,vertical: MediaQuery.of(context).size.height*.01),
                               child: SizedBox(
-                                height: AppSize.s50,
-                                width: AppSize.s60Width,
+                                height: MediaQuery.of(context).size.height*.05,
+                                width: MediaQuery.of(context).size.width*.36,
                                 child: GetSectorsComponent(
                                   fromRoute: "New Info",
                                   cubit: thisCubit,
@@ -591,7 +420,7 @@ class NewComputerDialog extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                               child: TextFormField(
                                   cursorColor: Colors.grey,
                                   onChanged: (value) {
@@ -627,8 +456,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
                                 onPressed: () {
                                   String selectedSectorName = context
@@ -657,19 +486,20 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newArea,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
@@ -677,9 +507,10 @@ class NewComputerDialog extends StatelessWidget {
                                               ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -690,8 +521,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -713,12 +544,12 @@ class NewComputerDialog extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 19),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),
@@ -726,6 +557,7 @@ class NewComputerDialog extends StatelessWidget {
                                         //
                                         child: Icon(
                                           Icons.close,
+                                          size: MediaQuery.of(context).size.height*.025,
                                           color:
                                               ColorManager.CARD_BG_COLOR_DARK,
                                         )),
@@ -742,6 +574,7 @@ class NewComputerDialog extends StatelessWidget {
               },
               listener: (context, state) {
                 if (state is NewInfoAddAreaSuccess) {
+                  cubit?.getAreas(cubit?.selectedSector?.sectorId??1);
                   Navigator.pop(context);
                 }
               },
@@ -754,93 +587,37 @@ class NewComputerDialog extends StatelessWidget {
             create: (context) => sl<NewInfoCubit>(),
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (context, state) {
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s1Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //         cursorColor: Colors.grey,
-                //         onChanged: (value) {
-                //           newProcessorBrand.value = value;
-                //         },
-                //         decoration: InputDecoration(
-                //           contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                //           labelStyle: const TextStyle(fontSize: 18,color: Colors.grey),
-                //           labelText: AppStrings.processorBrand,
-                //           focusedBorder: const OutlineInputBorder(
-                //             borderSide: BorderSide(color: Colors.white),
-                //             borderRadius:
-                //             BorderRadius.all(Radius.circular(10)),
-                //           ),
-                //         ),
-                //         style: TextStyle(
-                //           color: Theme.of(context).primaryColorDark,
-                //           fontFamily: FontConstants.family,
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addProcessorBrand(newProcessorBrand.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newProcessorBrand,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  // width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newProcessorBrand,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newProcessorBrand.value = value;
                               },
                               decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                 // hintText: AppStrings.department,
 
-                                labelStyle: const TextStyle(
-                                    fontSize: 18, color: Colors.grey),
+                                labelStyle:
+                                const TextStyle(fontSize: 18, color: Colors.grey),
                                 labelText: AppStrings.processorBrand,
                                 focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(10)),
                                 ),
                               ),
                               style: TextStyle(
@@ -856,18 +633,18 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  context
-                                      .read<NewInfoCubit>()
-                                      .addProcessorBrand(
-                                          newProcessorBrand.value);
-                                },
+                                                onPressed: () {
+                                                  context
+                                                      .read<NewInfoCubit>()
+                                                      .addProcessorBrand(
+                                                          newProcessorBrand.value);
+                                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                        Theme.of(context).primaryColorDark,
+                                    Theme.of(context).primaryColorDark,
                                     elevation: 1,
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -876,29 +653,31 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newProcessorBrand,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -909,8 +688,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -924,29 +703,30 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                             color: Colors.white),
                                         //
                                         child: Icon(
                                           Icons.close,
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -961,6 +741,7 @@ class NewComputerDialog extends StatelessWidget {
               },
               listener: (context, state) {
                 if (state is NewInfoAddProcessorBrandSuccess) {
+                  cubit?.getAllProcessorBrands();
                   Navigator.pop(context);
                 }
               },
@@ -975,83 +756,29 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (BuildContext context, NewInfoStates state) {
                 var thisCubit = NewInfoCubit.get(context);
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newProcessorModel.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.processorModel,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             int selectedProcessorBrandId = context
-                //                 .read<NewInfoCubit>()
-                //                 .selectedBrand!
-                //                 .processorBrandId;
-                //             context.read<NewInfoCubit>().addProcessorModel(
-                //                 newProcessorModel.value,
-                //                 selectedProcessorBrandId);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newProcessorModel,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
 
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  // width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Column(
                           children: [
+                            const SizedBox(
+                              child: Text(AppStrings.newProcessorModel,style: TextStyle(fontSize: 20, color:Colors.white),),
+                            ),
+                            SizedBox(
+                              height:MediaQuery.of(context).size.height*.005,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.01,vertical: MediaQuery.of(context).size.height*.01),
                               child: SizedBox(
-                                height: AppSize.s50,
-                                width: AppSize.s60Width,
+                                height: MediaQuery.of(context).size.height*.05,
+                                width: MediaQuery.of(context).size.width*.36,
                                 child: GetProcessorBrandComponent(
                                   fromRoute: "New Info",
                                   cubit: thisCubit,
@@ -1059,7 +786,7 @@ class NewComputerDialog extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                               child: TextFormField(
                                   cursorColor: Colors.grey,
                                   onChanged: (value) {
@@ -1068,14 +795,16 @@ class NewComputerDialog extends StatelessWidget {
                                   decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),
+                                    // hintText: AppStrings.department,
+
                                     labelStyle: TextStyle(
                                         fontSize: 18, color: Colors.grey),
                                     labelText: AppStrings.newProcessorModel,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.all(Radius.circular(10)),
                                     ),
                                   ),
                                   style: TextStyle(
@@ -1093,17 +822,18 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
-                                onPressed: () {
+                onPressed: () {
                                   int selectedProcessorBrandId = context.read<NewInfoCubit>().selectedBrand!.processorBrandId;
                                   context
                                       .read<NewInfoCubit>()
                                       .addProcessorModel(newProcessorModel.value, selectedProcessorBrandId);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).primaryColorDark,
+                                    backgroundColor:
+                                    Theme.of(context).primaryColorDark,
                                     elevation: 1,
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -1112,29 +842,31 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newProcessorModel,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1145,8 +877,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1168,21 +900,22 @@ class NewComputerDialog extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 19),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                             color: Colors.white),
                                         //
                                         child: Icon(
                                           Icons.close,
+                                          size: MediaQuery.of(context).size.height*.025,
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
                                         )),
                                   ],
                                 ),
@@ -1197,6 +930,7 @@ class NewComputerDialog extends StatelessWidget {
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddProcessorModelSuccess) {
+                  cubit?.getProcessorModels(cubit?.selectedProcessorBrand?.processorBrandId??1);
                   Navigator.pop(context);
                 }
               },
@@ -1209,90 +943,37 @@ class NewComputerDialog extends StatelessWidget {
             create: (BuildContext context) => sl<NewInfoCubit>(),
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (context, state) {
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newProcessorGen.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.processorGen,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addProcessorGen(newProcessorGen.value);
-                //             print(newProcessorGen.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newProcessorGen,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  // width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newProcessorGen,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newProcessorGen.value = value;
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                 // hintText: AppStrings.department,
 
                                 labelStyle:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
-                                labelText: AppStrings.newProcessorGen,
-                                focusedBorder: OutlineInputBorder(
+                                const TextStyle(fontSize: 18, color: Colors.grey),
+                                labelText: AppStrings.processorGen,
+                                focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(10)),
                                 ),
                               ),
                               style: TextStyle(
@@ -1308,18 +989,17 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
                                 onPressed: () {
                                   context
                                       .read<NewInfoCubit>()
                                       .addProcessorGen(newProcessorGen.value);
-                                  print(newProcessorGen.value);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                        Theme.of(context).primaryColorDark,
+                                    Theme.of(context).primaryColorDark,
                                     elevation: 1,
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -1328,29 +1008,31 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newProcessorGen,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1361,8 +1043,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1376,29 +1058,30 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                             color: Colors.white),
                                         //
                                         child: Icon(
                                           Icons.close,
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1413,6 +1096,7 @@ class NewComputerDialog extends StatelessWidget {
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddProcessorGenSuccess) {
+                  cubit?.getProcessorGens();
                   Navigator.pop(context);
                 }
               },
@@ -1426,33 +1110,36 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (context, state) {
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  // width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newGraphicCardBrand,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newGraphicCardBrand.value = value;
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                 // hintText: AppStrings.department,
 
                                 labelStyle:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
-                                labelText: AppStrings.newGraphicCardBrand,
-                                focusedBorder: OutlineInputBorder(
+                                const TextStyle(fontSize: 18, color: Colors.grey),
+                                labelText: AppStrings.graphicCardBrand,
+                                focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(10)),
                                 ),
                               ),
                               style: TextStyle(
@@ -1468,19 +1155,17 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  print(newGraphicCardBrand.value);
                                   context
                                       .read<NewInfoCubit>()
-                                      .addGraphicCardBrand(
-                                          newGraphicCardBrand.value);
+                                      .addGraphicCardBrand(newGraphicCardBrand.value);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                        Theme.of(context).primaryColorDark,
+                                    Theme.of(context).primaryColorDark,
                                     elevation: 1,
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
@@ -1489,29 +1174,31 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newGraphicCardBrand,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1522,8 +1209,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1537,29 +1224,30 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                             color: Colors.white),
                                         //
                                         child: Icon(
                                           Icons.close,
                                           color:
-                                              ColorManager.CARD_BG_COLOR_DARK,
+                                          ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1571,65 +1259,10 @@ class NewComputerDialog extends StatelessWidget {
                     ],
                   ),
                 );
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newGraphicCardBrand.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.graphicCardBrand,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             print(newGraphicCardBrand.value);
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addGraphicCardBrand(newGraphicCardBrand.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newGraphicCardBrand,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddGraphicCardBrandSuccess) {
+                  cubit?.getAllGraphicBrands();
                   Navigator.pop(context);
                 }
               },
@@ -1645,21 +1278,24 @@ class NewComputerDialog extends StatelessWidget {
               builder: (BuildContext context, NewInfoStates state) {
                 var thisCubit = NewInfoCubit.get(context);
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        width: 200,
                         child: Column(
                           children: [
+                            const SizedBox(
+                              child: Text(AppStrings.newGraphicCardModel,style: TextStyle(fontSize: 20, color:Colors.white),),
+                            ),
+                            SizedBox(
+                              height:MediaQuery.of(context).size.height*.005,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.01,vertical: MediaQuery.of(context).size.height*.01),
                               child: SizedBox(
-                                height: AppSize.s50,
-                                width: AppSize.s60Width,
+                                height: MediaQuery.of(context).size.height*.05,
+                                width: MediaQuery.of(context).size.width*.36,
                                 child: GetGraphicBrandComponent(
                                   fromRoute: "New Info",
                                   cubit: thisCubit,
@@ -1667,15 +1303,15 @@ class NewComputerDialog extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                               child: TextFormField(
                                   cursorColor: Colors.grey,
                                   onChanged: (value) {
                                     newGraphicCardModel.value = value;
                                   },
                                   decoration:  InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 20),
+                                    contentPadding:   EdgeInsets.symmetric(
+                                        vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                     // hintText: AppStrings.department,
 
                                     labelStyle: const TextStyle(
@@ -1695,16 +1331,15 @@ class NewComputerDialog extends StatelessWidget {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                               child: TextFormField(
                                   cursorColor: Colors.grey,
                                   onChanged: (value) {
                                     newGraphicCardRamSize.value = value;
                                   },
                                   decoration:  InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 20),
-                                    // hintText: AppStrings.department,
+                                    contentPadding:   EdgeInsets.symmetric(
+                                        vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
 
                                     labelStyle: const TextStyle(
                                         fontSize: 18, color: Colors.grey),
@@ -1732,8 +1367,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 270,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
                                           onPressed: () {
                                             int selectedModelCardId = context
@@ -1757,19 +1392,22 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newGraphicCardModel,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                     SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        // height: 30,
+                                        // width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(20),
@@ -1777,9 +1415,10 @@ class NewComputerDialog extends StatelessWidget {
                                           ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child:  Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -1790,8 +1429,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1805,20 +1444,20 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                     Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp,),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                     SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(20),
@@ -1828,6 +1467,10 @@ class NewComputerDialog extends StatelessWidget {
                                           Icons.close,
                                           color:
                                           ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
+
+
+
                                         )),
                                   ],
                                 ),
@@ -1840,99 +1483,10 @@ class NewComputerDialog extends StatelessWidget {
                   ),
                 );
 
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     GetGraphicBrandComponent(
-                //       fromRoute: "New Info",
-                //       cubit: thisCubit,
-                //     ),
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newGraphicCardModel.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.graphicCardModel,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     /* SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),*/
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newGraphicCardRamSize.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.ramSize,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     /*  SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),*/
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             int selectedModelCardId = context
-                //                 .read<NewInfoCubit>()
-                //                 .selectedGraphicBrand!
-                //                 .graphicsCardBrandId;
-                //
-                //             context.read<NewInfoCubit>().addGraphicCardModel(
-                //                 newGraphicCardModel.value,
-                //                 '1024',
-                //                 selectedModelCardId);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newProcessorModel,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
-
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddGraphicCardModelSuccess) {
+                  cubit?.getGraphicModels(cubit?.selectedGraphicBrand?.graphicsCardBrandId??1);
                   Navigator.pop(context);
                 }
               },
@@ -1946,82 +1500,26 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (BuildContext context, NewInfoStates state) {
                 var thisCubit = NewInfoCubit.get(context);
-
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newRamType.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.ramType,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addRamType(newRamType.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newRamType,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
-
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newRamType,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
+                        // width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newRamType.value = value;
                               },
                               decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
                                 // hintText: AppStrings.department,
 
                                 labelStyle:
@@ -2046,14 +1544,14 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
-                                          onPressed: () {
-                                            context
-                                                .read<NewInfoCubit>()
-                                                .addRamType(newRamType.value);
-                                          },
+                                onPressed: () {
+                                  context
+                                      .read<NewInfoCubit>()
+                                      .addRamType(newRamType.value);
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                     Theme.of(context).primaryColorDark,
@@ -2065,19 +1563,20 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newRamType,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(20),
@@ -2085,9 +1584,10 @@ class NewComputerDialog extends StatelessWidget {
                                           ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2098,8 +1598,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -2113,20 +1613,20 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(20),
@@ -2136,6 +1636,7 @@ class NewComputerDialog extends StatelessWidget {
                                           Icons.close,
                                           color:
                                           ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2147,10 +1648,10 @@ class NewComputerDialog extends StatelessWidget {
                     ],
                   ),
                 );
-
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddRamTypeSuccess) {
+                  cubit?.getAllRamTypes();
                   Navigator.pop(context);
                 }
               },
@@ -2164,27 +1665,25 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (BuildContext context, NewInfoStates state) {
                 var thisCubit = NewInfoCubit.get(context);
-
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newDeviceModel,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newDeviceModel.value = value;
                               },
                               decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
-                                // hintText: AppStrings.department,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
 
                                 labelStyle:
                                 const TextStyle(fontSize: 18, color: Colors.grey),
@@ -2208,14 +1707,14 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
-                                          onPressed: () {
-                                            context
-                                                .read<NewInfoCubit>()
-                                                .addDeviceModel(newDeviceModel.value);
-                                          },
+                                onPressed: () {
+                                  context
+                                      .read<NewInfoCubit>()
+                                      .addDeviceModel(newDeviceModel.value);
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                     Theme.of(context).primaryColorDark,
@@ -2227,19 +1726,20 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newDeviceModel,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(20),
@@ -2247,9 +1747,10 @@ class NewComputerDialog extends StatelessWidget {
                                           ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2260,8 +1761,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -2275,20 +1776,20 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(20),
@@ -2298,6 +1799,7 @@ class NewComputerDialog extends StatelessWidget {
                                           Icons.close,
                                           color:
                                           ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2310,64 +1812,10 @@ class NewComputerDialog extends StatelessWidget {
                   ),
                 );
 
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newDeviceModel.value = value;
-                //           },
-                //           decoration: InputDecoration(
-                //             hintText: AppStrings.deviceModel,
-                //             focusedBorder: const OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addDeviceModel(newDeviceModel.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newDeviceModel,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddDeviceModelSuccess) {
+                  cubit?.getAllPcModels();
                   Navigator.pop(context);
                 }
               },
@@ -2381,87 +1829,30 @@ class NewComputerDialog extends StatelessWidget {
             child: BlocConsumer<NewInfoCubit, NewInfoStates>(
               builder: (BuildContext context, NewInfoStates state) {
                 var thisCubit = NewInfoCubit.get(context);
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Padding(
-                //       padding: EdgeInsets.symmetric(
-                //           horizontal: AppSize.s15Width,
-                //           vertical: AppSize.s1Height),
-                //       child: TextFormField(
-                //           onChanged: (value) {
-                //             newHardType.value = value;
-                //           },
-                //           decoration: const InputDecoration(
-                //             hintText: AppStrings.newPrimaryHardDriveType,
-                //             focusedBorder: OutlineInputBorder(
-                //               borderSide: BorderSide(color: Colors.white),
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(7)),
-                //             ),
-                //           ),
-                //           style: TextStyle(
-                //             color: Theme.of(context).primaryColorDark,
-                //             fontFamily: FontConstants.family,
-                //           )),
-                //     ),
-                //     SizedBox(
-                //       height: AppSize.s5Height,
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                //       child: Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: ElevatedButton(
-                //           onPressed: () {
-                //             context
-                //                 .read<NewInfoCubit>()
-                //                 .addHardType(newHardType.value);
-                //           },
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Theme.of(context).primaryColorDark,
-                //             elevation: 20,
-                //           ),
-                //           child: Text(
-                //             AppStrings.newPrimaryHardDriveType,
-                //             style: TextStyle(
-                //               color: ColorManager.CARD_BG_COLOR_DARK,
-                //               fontFamily: FontConstants.family,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // );
-
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        child: Text(AppStrings.newPrimaryHardDriveType,style: TextStyle(fontSize: 20, color:Colors.white),),
+                      ),
                       SizedBox(
-                        width: 200,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*.02,vertical: MediaQuery.of(context).size.height*.01),
                           child: TextFormField(
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 newHardType.value = value;
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
-                                // hintText: AppStrings.department,
+                                    vertical: AppSize.s1Height, horizontal:  AppSize.s1Width),
 
                                 labelStyle:
-                                TextStyle(fontSize: 18, color: Colors.grey),
-                                labelText: AppStrings.newPrimaryHardDriveType,
-                                focusedBorder: OutlineInputBorder(
+                                const TextStyle(fontSize: 18, color: Colors.grey),
+                                labelText: AppStrings.primaryHardDriveType,
+                                focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -2480,14 +1871,14 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 250,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.18,
                               child: ElevatedButton(
-                                          onPressed: () {
-                                            context
-                                                .read<NewInfoCubit>()
-                                                .addHardType(newHardType.value);
-                                          },
+                                onPressed: () {
+                                  context
+                                      .read<NewInfoCubit>()
+                                      .addHardType(newHardType.value);
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                     Theme.of(context).primaryColorDark,
@@ -2499,19 +1890,20 @@ class NewComputerDialog extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppStrings.newPrimaryHardDriveType,
+                                      "اضافة",
                                       style: TextStyle(
                                         color: ColorManager.CARD_BG_COLOR_DARK,
                                         fontFamily: FontConstants.family,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 5.sp,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 30,
-                                        width: 30,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(20),
@@ -2519,9 +1911,10 @@ class NewComputerDialog extends StatelessWidget {
                                           ColorManager.CARD_BG_COLOR_DARK,
                                         ),
                                         //
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.add,
                                           color: Colors.white,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2532,8 +1925,8 @@ class NewComputerDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: AppSize.s20),
                             child: SizedBox(
-                              height: 50,
-                              width: 150,
+                              height: MediaQuery.of(context).size.height*.05,
+                              width: MediaQuery.of(context).size.width*.11,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -2547,20 +1940,20 @@ class NewComputerDialog extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "الغاء",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: FontConstants.family,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 19),
+                                          fontSize: 5.sp),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*.005,
                                     ),
                                     Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: MediaQuery.of(context).size.height*.03,
+                                        width: MediaQuery.of(context).size.height*.03,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(20),
@@ -2570,6 +1963,7 @@ class NewComputerDialog extends StatelessWidget {
                                           Icons.close,
                                           color:
                                           ColorManager.CARD_BG_COLOR_DARK,
+                                          size: MediaQuery.of(context).size.height*.025,
                                         )),
                                   ],
                                 ),
@@ -2581,10 +1975,10 @@ class NewComputerDialog extends StatelessWidget {
                     ],
                   ),
                 );
-
               },
               listener: (BuildContext context, NewInfoStates state) {
                 if (state is NewInfoAddHardTypeSuccess) {
+                  cubit?.getAllHardTypes();
                   Navigator.pop(context);
                 }
               },
@@ -2601,8 +1995,9 @@ class NewComputerDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
         child: SizedBox(
-          height: AppSize.s20Height,
-          width: AppSize.s60Width,
+
+          height: MediaQuery.of(context).size.height*.40,
+          width: MediaQuery.of(context).size.width*.40,
           child: dialogDetails,
         ),
       ),

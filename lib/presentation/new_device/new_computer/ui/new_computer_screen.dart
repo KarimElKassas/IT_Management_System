@@ -24,6 +24,7 @@ class NewComputerScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -87,7 +88,7 @@ class NewComputerScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newSector),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newSector, cubit: cubit),
                                 barrierDismissible: false
                             );
                           },
@@ -107,14 +108,9 @@ class NewComputerScreen extends StatelessWidget {
                         InkWell(
                           onTap: () {
 
-                            showDialog(context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newDepartment),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDepartment, cubit: cubit),
                                 barrierDismissible: false
                             );
-
-                            // (context: context, builder: (_) => const NewComputerDialog(option: AppStrings.newDepartment
-                            // ),
-                            //   barrierDismissible: false
-                            // );
                           },
                           child: ListTile(
                             title: Text(
@@ -131,7 +127,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: (){
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newArea, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -149,7 +145,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorBrand, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -167,8 +163,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            // scaleDialog(context, true, NewComputerDialog(option: AppStrings.newProcessorModel));
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorModel, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -186,7 +181,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newProcessorGen, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -204,7 +199,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardBrand, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -222,7 +217,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newGraphicCardModel, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -240,7 +235,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newGraphicCardSize));
+
                           },
                           child: ListTile(
                             title: Text(
@@ -257,8 +252,7 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newRamType));
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newRamType),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newRamType, cubit: cubit),
                                 barrierDismissible: false);
                           },
                           child: ListTile(
@@ -290,10 +284,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDeviceModel),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newDeviceModel, cubit: cubit),
                                 barrierDismissible: false);
-
-                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newDeviceModel));
                           },
                           child: ListTile(
                             title: Text(
@@ -310,10 +302,8 @@ class NewComputerScreen extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: (){
-                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newPrimaryHardDriveType),
+                            showDialog(context: context, builder: (_) => NewComputerDialog(option: AppStrings.newPrimaryHardDriveType, cubit: cubit),
                                 barrierDismissible: false);
-
-                            // scaleDialog(context, true, const NewComputerDialog(option: AppStrings.newPrimaryHardDriveType));
                           },
                           child: ListTile(
                             title: Text(
@@ -469,26 +459,6 @@ class NewComputerScreen extends StatelessWidget {
                                               MediaQuery.sizeOf(context).width *
                                                   0.1,
                                           child: Text(
-                                            AppStrings.department,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                                fontFamily:
-                                                    FontConstants.family,
-                                                fontSize: AppSize.s20,
-                                                fontWeight: FontWeight.w400),
-                                          )),
-                                      const SizedBox(width: AppSize.s16),
-                                      Expanded(
-                                          child: GetDepartmentsComponent(
-                                              fromRoute: "New Computer",
-                                              cubit: cubit)),
-                                      const SizedBox(width: AppSize.s16),
-                                      SizedBox(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.1,
-                                          child: Text(
                                             AppStrings.area,
                                             style: TextStyle(
                                                 color: Theme.of(context)
@@ -501,6 +471,26 @@ class NewComputerScreen extends StatelessWidget {
                                       const SizedBox(width: AppSize.s16),
                                       Expanded(
                                           child: GetAreasComponent(
+                                              fromRoute: "New Computer",
+                                              cubit: cubit)),
+                                      const SizedBox(width: AppSize.s16),
+                                      SizedBox(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.1,
+                                          child: Text(
+                                            AppStrings.department,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark,
+                                                fontFamily:
+                                                    FontConstants.family,
+                                                fontSize: AppSize.s20,
+                                                fontWeight: FontWeight.w400),
+                                          )),
+                                      const SizedBox(width: AppSize.s16),
+                                      Expanded(
+                                          child: GetDepartmentsComponent(
                                               fromRoute: "New Computer",
                                               cubit: cubit)),
                                     ],
