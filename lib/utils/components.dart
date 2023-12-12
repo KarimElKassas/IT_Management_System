@@ -4092,6 +4092,15 @@ void scaleDialog(BuildContext context, bool dismissible, Widget content) {
 }
 
 class ReusableComponents {
+  static SnackBar resultSnackBar(String error, Color color){
+    return SnackBar(content: Text(error,
+        style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: AppSize.s18,fontFamily: FontConstants.family)),
+      backgroundColor: color,
+      duration: const Duration(seconds: 5),
+      showCloseIcon: true,
+      closeIconColor: Colors.white,);
+  }
+
   static Widget registerTextField(
       {required BuildContext context,
       required TextInputType textInputType,

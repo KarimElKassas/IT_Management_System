@@ -5,6 +5,7 @@ import 'package:it_work/presentation/login/ui/login_screen.dart';
 import 'package:it_work/presentation/new_device/new_computer/ui/new_computer_screen.dart';
 import 'package:it_work/presentation/new_device/new_laptop/ui/new_laptop_screen.dart';
 import 'package:it_work/presentation/new_device/ui/new_device_screen.dart';
+import 'package:it_work/presentation/repair_department/incompleted_repairs/ui/incompleted_repairs_screen.dart';
 import 'package:it_work/presentation/repair_department/new_repair/ui/new_repair_screen.dart';
 import 'package:it_work/presentation/repair_department/repair_home/ui/repair_home_screen.dart';
 import '../presentation/new_device/new_pc_screen/ui/new_pc_screen_screen.dart';
@@ -17,6 +18,7 @@ class RoutesManager{
   static const String homeRoute = "/home";
   static const String repairHomeRoute = "/repairHome";
   static const String newRepairRoute = "/newRepair";
+  static const String pendingRepairRoute = "/pendingRepair";
   static const String newDeviceRoute = "/newDevice";
   static const String newComputerRoute = "/newComputer";
   static const String newLaptopRoute = "/newLaptop";
@@ -37,7 +39,7 @@ class RouteGenerator{
       case RoutesManager.repairHomeRoute :
         return MaterialPageRoute(builder: (_) => const RepairHomeScreen());
       case RoutesManager.newRepairRoute :
-        return MaterialPageRoute(builder: (_) => const NewRepairScreen());
+        return MaterialPageRoute(builder: (_) => NewRepairScreen());
       case RoutesManager.newDeviceRoute :
         return MaterialPageRoute(builder: (_) => const NewDeviceScreen());
       case RoutesManager.newComputerRoute :
@@ -46,6 +48,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => NewLaptopScreen());
       case RoutesManager.newPcScreenRoute :
         return MaterialPageRoute(builder: (_) => NewPcMonitorScreen());
+      case RoutesManager.pendingRepairRoute :
+        return MaterialPageRoute(builder: (_) => InCompletedRepairsScreen());
 
       default:
         return unDefinedRoute();

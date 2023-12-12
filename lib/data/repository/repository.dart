@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:it_work/data/datasource/remote/remote_data_source.dart';
 import 'package:it_work/data/models/area_model.dart';
 import 'package:it_work/data/models/department_model.dart';
+import 'package:it_work/data/models/device_maintenance_task_model.dart';
+import 'package:it_work/data/models/device_model.dart';
 import 'package:it_work/data/models/graphics_card_brand_model.dart';
 import 'package:it_work/data/models/graphics_card_model_device_model.dart';
 import 'package:it_work/data/models/hard_drive_type_model.dart';
@@ -13,6 +15,7 @@ import 'package:it_work/data/models/processor_model_device_model.dart';
 import 'package:it_work/data/models/ram_type_model.dart';
 import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
+import 'package:it_work/data/models/seeker_model.dart';
 import 'package:it_work/domain/repository/base_repository.dart';
 import 'package:it_work/domain/usecase/add_device_model_usecase.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
@@ -22,13 +25,19 @@ import 'package:it_work/domain/usecase/add_processor_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_processor_model_use_case.dart';
 import 'package:it_work/domain/usecase/add_ram_type_usecase.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
+import 'package:it_work/domain/usecase/create_new_repair_use_case.dart';
+import 'package:it_work/domain/usecase/create_seeker_use_case.dart';
 import 'package:it_work/domain/usecase/get_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
+import 'package:it_work/domain/usecase/get_device_by_serial_use_case.dart';
+import 'package:it_work/domain/usecase/get_device_department_use_case.dart';
 import 'package:it_work/domain/usecase/get_hard_type_use_case.dart';
 import 'package:it_work/domain/usecase/get_pc_model_use_case.dart';
 import 'package:it_work/domain/usecase/get_ram_type_use_case.dart';
+import 'package:it_work/domain/usecase/get_repairs_use_case.dart';
 import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
+import 'package:it_work/domain/usecase/search_for_seeker_use_case.dart';
 
 import '../../core/error/failure.dart';
 import '../../domain/usecase/add_area_use_case.dart';
@@ -413,6 +422,102 @@ class ITRepository extends BaseRepository {
       AddHardTypeParameters parameters) async {
     try {
       final result = await remoteDataSource.addHardType(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SeekerModel>> searchForSeeker(SearchForSeekerParameters parameters)async {
+    try {
+      final result = await remoteDataSource.searchForSeeker(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SeekerModel>> getSeekerById(SearchForSeekerParameters parameters)async {
+    try {
+      final result = await remoteDataSource.getSeekerById(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+
+  }
+
+  @override
+  Future<Either<Failure, SeekerModel>> createSeeker(CreateSeekerParameters parameters)async {
+    try {
+      final result = await remoteDataSource.createSeeker(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+
+  }
+
+  @override
+  Future<Either<Failure, DeviceModel>> getDeviceBySerial(GetDeviceBySerialParameters parameters)async {
+    try {
+      final result = await remoteDataSource.getDeviceBySerial(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> getDeviceDepartment(GetDeviceDepartmentParameters parameters)async {
+    try {
+      final result = await remoteDataSource.getDeviceDepartment(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+
+  }
+
+  @override
+  Future<Either<Failure, String>> createNewRepair(CreateNewRepairParameters parameters)async {
+    try {
+      final result = await remoteDataSource.createNewRepair(parameters);
+      return Right(result);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(e as ServerFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<DeviceMaintenanceTaskModel>>> getMaintenanceTasks(GetMaintenanceTasksParameters parameters)async {
+    final result = await remoteDataSource.getMaintenanceTasks(parameters);
+    return Right(result);
+    try {
+      final result = await remoteDataSource.getMaintenanceTasks(parameters);
       return Right(result);
     } catch (e) {
       if (e is DioException) {

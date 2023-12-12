@@ -125,12 +125,11 @@ class RepairHomeScreen extends StatelessWidget {
                                 Text(AppStrings.pendingRepairs, style: TextStyle(color: Theme.of(context).primaryColorDark, fontFamily: FontConstants.family, fontSize: AppSize.s22, fontWeight: FontWeight.bold),)
                               ],
                             ),
-                          ).ripple((){},borderRadius: const BorderRadius.all(Radius.circular(AppSize.s16)),overlayColor: MaterialStateColor.resolveWith((
+                          ).ripple((){
+                            AppConstants.navigate(context, RoutesManager.pendingRepairRoute, null);
+                          },borderRadius: const BorderRadius.all(Radius.circular(AppSize.s16)),overlayColor: MaterialStateColor.resolveWith((
                               states) =>
-                              Theme
-                                  .of(context)
-                                  .primaryColorDark
-                                  .withOpacity(0.15))),
+                              Theme.of(context).primaryColorDark.withOpacity(0.15))),
                           const SizedBox(width: AppSize.s16,),
                           Container(
                             decoration: BoxDecoration(

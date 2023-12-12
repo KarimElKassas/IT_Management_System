@@ -74,15 +74,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Positioned(
                       bottom: AppSize.s8,
-                      left: AppSize.s8,
+                      right: AppSize.s8,
                       child: SingleChildScrollView(
                         child: ClipRRect(
                           child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                             child: Container(
                               width: MediaQuery.sizeOf(context).width *0.30,
                               decoration: BoxDecoration(
-                                  color: Colors.grey.shade400.withOpacity(0.3),
+                                  color: Colors.blue.withOpacity(0.3),
                                   borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12))
                               ),
                               child: Padding(

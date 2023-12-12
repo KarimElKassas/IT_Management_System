@@ -19,6 +19,8 @@ class EndPoints{
   static const String screenEnd = '$baseUrl/Screen';
   static const String screenDeviceEnd = '$baseUrl/ScreenDevice';
   static const String sectorEnd = '$baseUrl/Sector';
+  static const String seekerEnd = '$baseUrl/Seeker';
+  static const String deviceMaintenanceEnd = '$baseUrl/DeviceMaintenanceTask';
 
   static const String authenticate = '$authEnd/Authenticate';
   static const String createEmployee = '$authEnd/CreateEmployee';
@@ -51,6 +53,7 @@ class EndPoints{
   static const String getAllDevices = '$deviceEnd/GetAllDevices';
   static const String getDeviceById = '$deviceEnd/GetDeviceById';
   static const String getDeviceBySerialNumber = '$deviceEnd/GetDeviceBySerialNumber';
+  static const String getDeviceDepartmentByDeviceId = '$deviceEnd/GetDeviceDepartmentByDeviceId';
 
   static const String activeEmployee = '$employeeEnd/ActiveEmployeeAccount';
   static const String deActiveEmployee = '$employeeEnd/DeactiveEmployeeAccount';
@@ -133,5 +136,19 @@ class EndPoints{
   static const String unAssignScreenToDevice = '$screenDeviceEnd/UnAssignedToDevices';
   static const String getAssignedToDeviceById = '$screenDeviceEnd/GetScreenAssignedToDevicesById';
   static const String getAllScreenAssignedToDevices = '$screenDeviceEnd/GetAllScreenAssignedToDevices';
+
+  static const String createSeeker = '$seekerEnd/CreateSeekerAsync';
+  static const String searchForSeeker = '$seekerEnd/SearchForSeekerAsync';
+  static const String getAllSeekers = '$seekerEnd/GetAllSeekers';
+  static const String getSeekerById = '$seekerEnd/GetSeekerById';
+  static const String getSeekerByMilitaryIdOrNationalId = '$seekerEnd/GetSeekerByMilitaryIdOrNationalID';
+  static const String deleteSeeker = '$seekerEnd/DeleteSeekerAsync';
+
+  static const String createMaintenanceTask = '$deviceMaintenanceEnd/AddDeviceMaintenanceTaskAsync';
+  static const String deleteMaintenanceTask = '$deviceMaintenanceEnd/DeleteDeviceMaintenanceTaskAsync';
+  static const String getAllMaintenanceTasks = '$deviceMaintenanceEnd/GetAllDeviceMaintenanceTasks';
+  static const String getMaintenanceTaskById = '$deviceMaintenanceEnd/GetDeviceMaintenanceTaskById';
+  static const String getMaintenanceTaskByDeviceId = '$deviceMaintenanceEnd/GetDeviceMaintenanceTaskByDeviceId';
+  static const String getMaintenanceTaskByDeviceSerial = '$deviceMaintenanceEnd/GetDeviceMaintenanceTaskByDeviceSerialNumber';
 
 }

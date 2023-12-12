@@ -11,11 +11,13 @@ import 'package:it_work/data/models/processor_model_device_model.dart';
 import 'package:it_work/data/models/ram_type_model.dart';
 import 'package:it_work/data/models/screen_brand_model.dart';
 import 'package:it_work/data/models/sector_model.dart';
+import 'package:it_work/data/models/seeker_model.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
 import 'package:it_work/domain/usecase/add_graphic_brand_use_case.dart';
 import 'package:it_work/domain/usecase/add_hard_type_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
 import 'package:it_work/domain/usecase/add_sector_use_case.dart';
+import 'package:it_work/domain/usecase/create_new_repair_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_brands_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_models_use_case.dart';
@@ -25,6 +27,7 @@ import 'package:it_work/domain/usecase/get_processor_brands_use_case.dart';
 import 'package:it_work/domain/usecase/get_processor_gens_use_case.dart';
 import 'package:it_work/domain/usecase/get_processor_models_use_case.dart';
 import 'package:it_work/domain/usecase/get_ram_type_use_case.dart';
+import 'package:it_work/domain/usecase/get_repairs_use_case.dart';
 import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
 
@@ -37,11 +40,17 @@ import '../../../domain/usecase/add_processor_brand_use_case.dart';
 import '../../../domain/usecase/add_processor_gen_use_case.dart';
 import '../../../domain/usecase/add_processor_model_use_case.dart';
 import '../../../domain/usecase/add_ram_type_usecase.dart';
+import '../../../domain/usecase/create_seeker_use_case.dart';
 import '../../../domain/usecase/get_areas_use_case.dart';
+import '../../../domain/usecase/get_device_by_serial_use_case.dart';
+import '../../../domain/usecase/get_device_department_use_case.dart';
 import '../../../domain/usecase/get_user_use_case.dart';
 import '../../../domain/usecase/login_user_use_case.dart';
+import '../../../domain/usecase/search_for_seeker_use_case.dart';
 import '../../../resources/endpoints.dart';
 import '../../../utils/dio_helper.dart';
+import '../../models/device_maintenance_task_model.dart';
+import '../../models/device_model.dart';
 import '../../models/user_model.dart';
 
 abstract class BaseRemoteDataSource{
@@ -72,11 +81,13 @@ abstract class BaseRemoteDataSource{
   Future<String> addRamType(AddRamTypeParameters parameters);
   Future<String> addDeviceModel(AddDeviceModelParameters parameters);
   Future<String> addHardType(AddHardTypeParameters parameters);
-
-
-
-
-
+  Future<SeekerModel> searchForSeeker(SearchForSeekerParameters parameters);
+  Future<SeekerModel> getSeekerById(SearchForSeekerParameters parameters);
+  Future<SeekerModel> createSeeker(CreateSeekerParameters parameters);
+  Future<DeviceModel> getDeviceBySerial(GetDeviceBySerialParameters parameters);
+  Future<Map<String,dynamic>> getDeviceDepartment(GetDeviceDepartmentParameters parameters);
+  Future<String> createNewRepair(CreateNewRepairParameters parameters);
+  Future<List<DeviceMaintenanceTaskModel>> getMaintenanceTasks(GetMaintenanceTasksParameters parameters);
 
 }
 class RemoteDataSource implements BaseRemoteDataSource {
@@ -100,7 +111,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["data"]["jwtToken"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -275,7 +286,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -291,7 +302,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -322,7 +333,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -338,7 +349,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -354,7 +365,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -371,7 +382,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -388,7 +399,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"]??"Success";
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -404,7 +415,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -421,7 +432,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -439,7 +450,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -455,7 +466,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -471,7 +482,7 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
@@ -487,8 +498,124 @@ class RemoteDataSource implements BaseRemoteDataSource {
     if (response.data['success'] == true) {
       return response.data["message"];
     } else {
-      throw ServerFailure(response.data['errors'][0].toString());
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
     }
   }
 
+  @override
+  Future<SeekerModel> searchForSeeker(SearchForSeekerParameters parameters)async {
+    final response = await DioHelper.getData(
+        url: EndPoints.searchForSeeker,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'personsID': parameters.personId,
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return SeekerModel.fromJson(response.data["data"]);
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+  }
+
+  @override
+  Future<SeekerModel> getSeekerById(SearchForSeekerParameters parameters)async {
+    final response = await DioHelper.getData(
+        url: EndPoints.getSeekerByMilitaryIdOrNationalId,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'personsID': parameters.personId,
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return SeekerModel.fromJson(response.data["data"]);
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+  }
+
+  @override
+  Future<SeekerModel> createSeeker(CreateSeekerParameters parameters)async {
+    final response = await DioHelper.postData(
+        url: EndPoints.createSeeker, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return SeekerModel.fromJson(response.data["data"]);
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+  }
+
+  @override
+  Future<DeviceModel> getDeviceBySerial(GetDeviceBySerialParameters parameters)async {
+    final response = await DioHelper.getData(
+        url: EndPoints.getDeviceBySerialNumber,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'serialNumber': parameters.serialNumber,
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return DeviceModel.fromJson(response.data["data"]);
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+
+  }
+
+  @override
+  Future<Map<String, dynamic>> getDeviceDepartment(GetDeviceDepartmentParameters parameters)async {
+    final response = await DioHelper.getData(
+        url: EndPoints.getDeviceDepartmentByDeviceId,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'deviceId': parameters.deviceId,
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return response.data["data"];
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+
+  }
+
+  @override
+  Future<String> createNewRepair(CreateNewRepairParameters parameters)async {
+    final response = await DioHelper.postData(
+        url: EndPoints.createMaintenanceTask, data: parameters.data,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("RESPONSE : $response");
+    if (response.data['success'] == true) {
+      return response.data['message']??"Repair Created Successfully";
+    } else {
+      throw ServerFailure(response.data['errors'][0].toString(),response.statusCode);
+    }
+
+  }
+
+  @override
+  Future<List<DeviceMaintenanceTaskModel>> getMaintenanceTasks(GetMaintenanceTasksParameters parameters)async {
+    final response = await DioHelper.getData(
+        url: EndPoints.getAllMaintenanceTasks,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${parameters.token}',
+          'Content-Type': 'application/json; charset=utf-8'
+        }));
+    print("DATA MAP : ${response.data}");
+    return List<DeviceMaintenanceTaskModel>.from(
+        (response.data['data'] as List).map((e) =>
+            DeviceMaintenanceTaskModel.fromJson(e)));
+  }
 }

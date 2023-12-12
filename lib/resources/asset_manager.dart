@@ -11,8 +11,8 @@ class ImageAsset{
   static const String placeholder = "$imagePath/placeholder.jpg";
   static const String registerLogo = "$imagePath/register_logo.svg";
   static const String logoWhite = "$imagePath/logo_white.png";
-  static const String loginBack = "$imagePath/login_back.png";
-  static const String loginSvg = "$imagePath/archive_background.svg";
+  static const String loginBack = "$imagePath/login_new_back.jpg";
+  static const String loginSvg = "$imagePath/login_new_sv.svg";
   static const String repairSvg = "$imagePath/repair.svg";
   static const String networkSvg = "$imagePath/network.svg";
   static const String programmingSvg = "$imagePath/programming.svg";

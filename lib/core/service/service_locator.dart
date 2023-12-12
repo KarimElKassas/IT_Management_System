@@ -6,8 +6,12 @@ import 'package:it_work/domain/usecase/add_area_use_case.dart';
 import 'package:it_work/domain/usecase/add_device_use_case.dart';
 import 'package:it_work/domain/usecase/add_screen_use_case.dart';
 import 'package:it_work/domain/usecase/add_sector_use_case.dart';
+import 'package:it_work/domain/usecase/create_new_repair_use_case.dart';
+import 'package:it_work/domain/usecase/create_seeker_use_case.dart';
 import 'package:it_work/domain/usecase/get_areas_use_case.dart';
 import 'package:it_work/domain/usecase/get_departments_use_case.dart';
+import 'package:it_work/domain/usecase/get_device_by_serial_use_case.dart';
+import 'package:it_work/domain/usecase/get_device_department_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_brands_use_case.dart';
 import 'package:it_work/domain/usecase/get_graphic_models_use_case.dart';
 import 'package:it_work/domain/usecase/get_hard_type_use_case.dart';
@@ -16,12 +20,16 @@ import 'package:it_work/domain/usecase/get_processor_brands_use_case.dart';
 import 'package:it_work/domain/usecase/get_processor_gens_use_case.dart';
 import 'package:it_work/domain/usecase/get_processor_models_use_case.dart';
 import 'package:it_work/domain/usecase/get_ram_type_use_case.dart';
+import 'package:it_work/domain/usecase/get_repairs_use_case.dart';
 import 'package:it_work/domain/usecase/get_screen_brand_use_case.dart';
 import 'package:it_work/domain/usecase/get_sectors_use_case.dart';
+import 'package:it_work/domain/usecase/get_seeker_by_id_use_case.dart';
 import 'package:it_work/domain/usecase/get_user_use_case.dart';
+import 'package:it_work/domain/usecase/search_for_seeker_use_case.dart';
 import 'package:it_work/presentation/home/bloc/home_cubit.dart';
 import 'package:it_work/presentation/login/bloc/login_cubit.dart';
 import 'package:it_work/presentation/new_device/new_pc_screen/bloc/new_pc_screen_cubit.dart';
+import 'package:it_work/presentation/repair_department/incompleted_repairs/bloc/incompleted_repairs_cubit.dart';
 import 'package:it_work/presentation/repair_department/new_repair/bloc/new_repair_cubit.dart';
 import 'package:it_work/presentation/repair_department/repair_home/bloc/repair_home_cubit.dart';
 import 'package:it_work/presentation/shared_cubit/new_info_cubit.dart';
@@ -47,13 +55,14 @@ class ServiceLocator {
     sl.registerFactory(() => LoginCubit(sl(), sl()));
     sl.registerFactory(() => HomeCubit(sl(), sl(), sl()));
     sl.registerFactory(() => RepairHomeCubit());
-    sl.registerFactory(() => NewRepairCubit());
+    sl.registerFactory(() => NewRepairCubit(sl(),sl(),sl(),sl(),sl(),sl()));
     sl.registerFactory(() => NewComputerCubit(sl(), sl(), sl(), sl(), sl(),
         sl(), sl(), sl(), sl(), sl(), sl(), sl()));
     sl.registerFactory(() => NewLaptopCubit(sl(), sl(), sl(), sl(), sl(), sl(),
         sl(), sl(), sl(), sl(), sl(), sl()));
     sl.registerFactory(() => NewPcScreenCubit(sl(), sl(), sl(), sl(), sl()));
     sl.registerFactory(() => NewInfoCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(),sl(),sl(),sl(), sl(), sl(),sl()));
+    sl.registerFactory(() => InCompletedRepairsCubit(sl()));
     /// fake push to features/addDevice
     /// Remote Data Source
     sl.registerLazySingleton<BaseRemoteDataSource>(() => RemoteDataSource());
@@ -106,8 +115,14 @@ class ServiceLocator {
             () => AddRamTypeUseCase(sl()));
     sl.registerLazySingleton<AddDeviceModelUseCase>(
             () => AddDeviceModelUseCase(sl()));
-    sl.registerLazySingleton<AddHardTypeUseCase>(
-            () => AddHardTypeUseCase(sl()));
+    sl.registerLazySingleton<AddHardTypeUseCase>(() => AddHardTypeUseCase(sl()));
+    sl.registerLazySingleton<SearchForSeekerUseCase>(() => SearchForSeekerUseCase(sl()));
+    sl.registerLazySingleton<GetSeekerByIdUseCase>(() => GetSeekerByIdUseCase(sl()));
+    sl.registerLazySingleton<CreateSeekerUseCase>(() => CreateSeekerUseCase(sl()));
+    sl.registerLazySingleton<GetDeviceBySerialUseCase>(() => GetDeviceBySerialUseCase(sl()));
+    sl.registerLazySingleton<GetDeviceDepartmentUseCase>(() => GetDeviceDepartmentUseCase(sl()));
+    sl.registerLazySingleton<CreateNewRepairUseCase>(() => CreateNewRepairUseCase(sl()));
+    sl.registerLazySingleton<GetRepairsUseCase>(() => GetRepairsUseCase(sl()));
 
   }
 }

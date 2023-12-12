@@ -18,6 +18,7 @@ class AppStrings{
   static String newRepair = "صيانة جديدة";
   static String repairHistory = "سجل الصيانات";
   static String pendingRepairs = "صيانات لم تنتهى";
+  static String deviceType = "نوع الجهاز";
   static String newDevice = "اضافة جهاز جديد";
   static String computer = "جهاز كمبيوتر";
   static String newComputer = "اضافة جهاز كمبيوتر";
